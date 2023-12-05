@@ -1,6 +1,0 @@
-@BallastLane_HostAddress = http://localhost:5145
-
-GET {{BallastLane_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

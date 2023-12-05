@@ -1,11 +1,14 @@
 ﻿@page "/counter"
+@inject HttpClient Http
+@rendermode InteractiveWebAssembly
 
 <PageTitle>Counter</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Counter</MudText>
-<MudText Class="mb-4">Current count: @currentCount</MudText>
-<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton>
+<h1>Counter</h1>
 
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
     private int currentCount = 0;
@@ -13,5 +16,28 @@
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+        Console.WriteLine("GOT " +  forecasts.Length);
+    
+        base.OnAfterRenderAsync(firstRender);
+    }
+
+        public class WeatherForecast
+    {
+        public DateTime Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
     }
 }
