@@ -1,5 +1,4 @@
-﻿using BallestLane.Entities;
-
+﻿
 namespace BallestLane.Dal;
 
 public class UserRepository : IUserRepository
