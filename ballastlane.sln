@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallastLane.Client", "src\B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallestLane.Business", "src\BallestLane.Business\BallestLane.Business.csproj", "{BD5C9E40-CD09-4EA7-A089-24F8463FB385}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallestLane.Data", "src\BallestLane.Data\BallestLane.Data.csproj", "{D9C61A05-C6A8-495D-9DFB-53072D3DEA0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallestLane.Dal", "src\BallestLane.Dal\BallestLane.Dal.csproj", "{D9C61A05-C6A8-495D-9DFB-53072D3DEA0A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0D7A2A13-C1C8-4D5F-96DF-5E3EE557E9F9}"
 EndProject

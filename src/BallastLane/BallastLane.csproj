@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BallastLane.Api\BallastLane.Api.csproj" />
     <ProjectReference Include="..\BallastLane.Client\BallastLane.Client.csproj" />
+    <ProjectReference Include="..\BallestLane.Dal\BallestLane.Dal.csproj" />
   </ItemGroup>
 
 </Project>
