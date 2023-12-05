@@ -23,16 +23,16 @@ public interface IService<T, K>
     /// <summary>
     /// Adds a new entity to the service.
     /// </summary>
-    /// <param name="entity">The entity to add.</param>
+    /// <param name="nft">The entity to add.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task Add(T entity);
+    Task Add(T nft);
 
     /// <summary>
     /// Updates an existing entity in the service.
     /// </summary>
-    /// <param name="entity">The entity to update.</param>
+    /// <param name="nft">The entity to update.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task Update(T entity);
+    Task Update(T nft);
 
     /// <summary>
     /// Deletes an entity by its primary key.
