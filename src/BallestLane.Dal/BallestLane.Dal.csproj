@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BallestLane.Entities\BallestLane.Entities.csproj" />
+  </ItemGroup>
+
 </Project>
