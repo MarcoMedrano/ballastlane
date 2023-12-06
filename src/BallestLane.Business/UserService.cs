@@ -3,7 +3,7 @@ using BallestLane.Entities;
 
 namespace BallestLane.Business;
 
-public class UserService(IUserRepository repo) : IUserRepository
+public class UserService(IUserRepository repo) : IUserService
 {
     public Task<User> GetById(string id) => repo.GetById(id);
 

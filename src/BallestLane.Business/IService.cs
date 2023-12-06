@@ -25,7 +25,7 @@ public interface IService<T, K>
     /// </summary>
     /// <param name="nft">The entity to add.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task Add(T nft);
+    Task<K> Add(T nft);
 
     /// <summary>
     /// Updates an existing entity in the service.

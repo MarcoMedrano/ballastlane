@@ -11,12 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BallestLane.Business\BallestLane.Business.csproj" />
     <ProjectReference Include="..\BallestLane.Dal\BallestLane.Dal.csproj" />
+    <ProjectReference Include="..\BallestLane.Dtos\BallestLane.Dtos.csproj" />
     <ProjectReference Include="..\BallestLane.Entities\BallestLane.Entities.csproj" />
   </ItemGroup>
   
