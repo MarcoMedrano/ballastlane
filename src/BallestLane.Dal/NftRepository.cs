@@ -1,14 +1,87 @@
 ﻿namespace BallestLane.Dal;
 
-public class NftRepository : INftRepository
+public class NftRepository(IConfiguration config) : INftRepository
 {
-    public Task<Nft> GetById(ulong id) => throw new NotImplementedException();
+    public async Task<Nft> GetById(long id)
+    {
+        await using var connection = new SqlConnection(config["Database:ConnectionString"]);
+        await connection.OpenAsync();
 
-    public Task<IEnumerable<Nft>> GetAll() => throw new NotImplementedException();
+        await using var command = new SqlCommand("SELECT * FROM Nfts WHERE Id = @Id", connection);
+        command.Parameters.AddWithValue($"@{nameof(Nft.Id)}", id);
 
-    public Task Add(Nft entity) => throw new NotImplementedException();
+        await using var reader = await command.ExecuteReaderAsync();
+        if (await reader.ReadAsync()) return MapNftFromReader(reader);
 
-    public Task Update(Nft entity) => throw new NotImplementedException();
+        return null; // Or throw an exception if you prefer
+    }
 
-    public Task Delete(ulong id) => throw new NotImplementedException();
+    public async Task<IEnumerable<Nft>> GetAll()
+    {
+        await using var connection = new SqlConnection(config["Database:ConnectionString"]);
+        await connection.OpenAsync();
+
+        await using var command = new SqlCommand("SELECT * FROM Nfts", connection);
+
+        await using var reader = await command.ExecuteReaderAsync();
+        var nfts = new List<Nft>();
+
+        while (await reader.ReadAsync()) nfts.Add(MapNftFromReader(reader));
+
+        return nfts;
+    }
+
+    public async Task<long> Add(Nft entity)
+    {
+        await using var connection = new SqlConnection(config["Database:ConnectionString"]);
+        await connection.OpenAsync();
+
+        using var command = new SqlCommand(
+            "INSERT INTO Nfts (Name, IpfsImage) VALUES (@Name, @IpfsImage); SELECT SCOPE_IDENTITY();", connection);
+
+        MapNftToParameters(command.Parameters, entity);
+        var res = await command.ExecuteScalarAsync();
+        return (long)Convert.ToUInt64(res);
+    }
+
+    public async Task Update(Nft entity)
+    {
+        await using var connection = new SqlConnection(config["Database:ConnectionString"]);
+        await connection.OpenAsync();
+
+        await using var command = new SqlCommand(
+            "UPDATE Nfts SET Name = @Name, IpfsImage = @IpfsImage WHERE Id = @Id", connection);
+
+        MapNftToParameters(command.Parameters, entity);
+
+        await command.ExecuteNonQueryAsync();
+    }
+
+    public async Task Delete(long id)
+    {
+        await using var connection = new SqlConnection(config["Database:ConnectionString"]);
+        await connection.OpenAsync();
+
+        await using var command = new SqlCommand("DELETE FROM Nfts WHERE Id = @Id", connection);
+        command.Parameters.AddWithValue($"@{nameof(Nft.Id)}", id);
+
+        await command.ExecuteNonQueryAsync();
+    }
+
+    private static Nft MapNftFromReader(SqlDataReader reader)
+    {
+        return new()
+        {
+            Id = (long)reader[nameof(Nft.Id)],
+            Name = (string)reader[nameof(Nft.Name)],
+            IpfsImage = (string)reader[nameof(Nft.IpfsImage)]
+        };
+    }
+
+    private static void MapNftToParameters(SqlParameterCollection parameters, Nft entity)
+    {
+        parameters.AddWithValue($"@{nameof(Nft.Id)}", entity.Id);
+        parameters.AddWithValue($"@{nameof(Nft.Name)}", entity.Name);
+        parameters.AddWithValue($"@{nameof(Nft.IpfsImage)}", entity.IpfsImage);
+    }
 }

@@ -3,9 +3,9 @@ using BallestLane.Entities;
 
 namespace BallestLane.Business;
 
-public class NftService(INftRepository repo) : IService<Nft, ulong>
+public class NftService(INftRepository repo) : IService<Nft, long>
 {
-    public Task<Nft> GetById(ulong id) => repo.GetById(id);
+    public Task<Nft> GetById(long id) => repo.GetById(id);
 
     public Task<IEnumerable<Nft>> GetAll() => repo.GetAll();
 
@@ -13,5 +13,5 @@ public class NftService(INftRepository repo) : IService<Nft, ulong>
 
     public Task Update(Nft nft) => repo.Update(nft);
 
-    public Task Delete(ulong id) => repo.Delete(id);
+    public Task Delete(long id) => repo.Delete(id);
 }

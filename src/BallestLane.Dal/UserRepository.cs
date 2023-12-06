@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using Microsoft.Data.SqlClient;
 
 namespace BallestLane.Dal;
 
@@ -35,7 +34,7 @@ public class UserRepository(IConfiguration config) : IUserRepository
         return users;
     }
 
-    public async Task Add(User user)
+    public async Task<string> Add(User user)
     {
         using var connection = new SqlConnection(config["Database:ConnectionString"]);
         await connection.OpenAsync();
@@ -48,6 +47,7 @@ public class UserRepository(IConfiguration config) : IUserRepository
         command.Parameters.Add(new ($"@{nameof(User.ProfilePicture)}", SqlDbType.NVarChar) { Value = user.ProfilePicture });
 
         await command.ExecuteNonQueryAsync();
+        return user.Id;
     }
 
     public async Task Update(User user)

@@ -9,7 +9,7 @@ public class UserService(IUserRepository repo) : IUserRepository
 
     public Task<IEnumerable<User>> GetAll() => repo.GetAll();
 
-    public Task Add(User entity) => repo.Add(entity);
+    public Task<string> Add(User entity) => repo.Add(entity);
 
     public Task Update(User entity) => repo.Update(entity);
 

@@ -25,7 +25,7 @@ public interface IRepository<T, K>
     /// </summary>
     /// <param name="entity">The entity to add.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task Add(T entity);
+    Task<K> Add(T entity);
 
     /// <summary>
     /// Updates an existing entity in the repository.

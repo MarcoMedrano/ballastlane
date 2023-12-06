@@ -17,7 +17,7 @@ public class NftServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(1ul, result.Id);
+        Assert.Equal(1, result.Id);
         Assert.Equal("ipfs://image", result.IpfsImage);
     }
 
