@@ -16,7 +16,7 @@ public class TestContainerFixture : IAsyncLifetime
             .WithPassword(Guid.NewGuid().ToString("D"))
             .Build();
         Config = new ConfigurationManager();
-        Db = new (Config);
+        Db = new (new(), Config);
     }
 
     public async Task InitializeAsync()

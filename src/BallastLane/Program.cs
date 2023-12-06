@@ -1,15 +1,18 @@
 using BallastLane.Client.Pages;
 using BallastLane.Components;
 using BallastLane.Controllers;
+using BallestLane.Dal;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
-
+var config = builder.Configuration;
 services.TryAddScoped<IWebAssemblyHostEnvironment, ServerHostEnvironment>();
 services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(sp.GetService<IWebAssemblyHostEnvironment>().BaseAddress) });
+services.AddDbContext<AppDbContext>(o => o.UseSqlServer(config["Database:ConnectionString"]));
 
 // Add services to the container.
 services.AddControllers().PartManager.ApplicationParts.Add(new AssemblyPart(typeof(WeatherForecastController).Assembly));;
@@ -21,6 +24,14 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    context.Database.EnsureDeleted();
+    context.Database.EnsureCreated();
+    if(config["Database:GenerateTestData"] == "true") context.SeedData();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

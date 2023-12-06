@@ -2,14 +2,14 @@
 
 namespace BallestLane.Dal;
 
-public class AppDbContext(IConfiguration configuration) : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration config) : DbContext(options)
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Nft> Nfts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(configuration["Database:ConnectionString"]);
+        optionsBuilder.UseSqlServer(config["Database:ConnectionString"]);
     }
 
     public void SeedData()
@@ -20,8 +20,10 @@ public class AppDbContext(IConfiguration configuration) : DbContext
         );
 
         this.Nfts.AddRange(
-            new Nft { Id = 1, Name = "Nft1", IpfsImage = "ipfs://image1" },
-            new Nft { Id = 2, Name = "Nft2", IpfsImage = "ipfs://image2" }
+            new Nft { Name = "Nft1", IpfsImage = "ipfs://image1" },
+            new Nft { Name = "Nft2", IpfsImage = "ipfs://image2" }
         );
+
+        this.SaveChanges();
     }
 }
