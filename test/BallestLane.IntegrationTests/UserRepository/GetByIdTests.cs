@@ -2,15 +2,17 @@ using BallestLane.Dal;
 
 namespace BallestLane.IntegrationTests;
 
-public class UserRepositoryIntegrationTests(MsSqlTestContainerFixture fixture) : IAsyncLifetime, IClassFixture<MsSqlTestContainerFixture>
+
+public class GetByIdTests : IAsyncLifetime
 {
+    private TestContainerFixture fixture = new();
 
     public async Task InitializeAsync()
     {
         await fixture.InitializeAsync();
     }
 
-    public async Task DisposeAsync() => await fixture.Container.StopAsync();
+    public async Task DisposeAsync() => await fixture.DisposeAsync();
 
     [Fact]
     public async Task GetById_ValidId_ReturnsUserFromDatabase()
@@ -29,8 +31,6 @@ public class UserRepositoryIntegrationTests(MsSqlTestContainerFixture fixture) :
         Assert.Equal("TestUser", result.NickName);
         Assert.Equal("ipfs://asdfas", result.ProfilePicture);
     }
-
-    // Add more integration tests for other repository methods as needed
 
     private async Task InsertTestData()
     {

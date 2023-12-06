@@ -1,50 +1,88 @@
-﻿
-using System.Data;
+﻿using System.Data;
 using Microsoft.Data.SqlClient;
 
 namespace BallestLane.Dal;
 
 public class UserRepository(IConfiguration config) : IUserRepository
 {
-    public async Task<User> GetById(string id)
+    public async Task<User?> GetById(string id)
+    {
+        await using var connection = new SqlConnection(config["Database:ConnectionString"]);
+        await connection.OpenAsync();
+
+        await using var command = new SqlCommand($"SELECT * FROM Users WHERE Id = @{nameof(User.Id)}", connection);
+        command.Parameters.Add(new ($"@{nameof(User.Id)}", SqlDbType.NVarChar) { Value = id });
+
+        await using var reader = await command.ExecuteReaderAsync();
+        return await reader.ReadAsync() ? MapUserFromReader(reader) : null;
+    }
+
+    public async Task<IEnumerable<User?>> GetAll()
+    {
+        var users = new List<User?>();
+
+        using var connection = new SqlConnection(config["Database:ConnectionString"]);
+        await connection.OpenAsync();
+
+        using var command = new SqlCommand("SELECT * FROM Users", connection);
+        using var reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            users.Add(MapUserFromReader(reader));
+        }
+
+        return users;
+    }
+
+    public async Task Add(User user)
     {
         using var connection = new SqlConnection(config["Database:ConnectionString"]);
         await connection.OpenAsync();
 
-        using var command = new SqlCommand("SELECT * FROM Users WHERE Id = @Id", connection);
-        command.Parameters.Add(new SqlParameter("@Id", SqlDbType.NVarChar) { Value = id });
+        using var command =
+            new SqlCommand("INSERT INTO Users (Id, NickName, ProfilePicture) VALUES (@Id, @NickName, @ProfilePicture)",
+                connection);
+        command.Parameters.Add(new ($"@{nameof(User.Id)}", SqlDbType.NVarChar) { Value = user.Id });
+        command.Parameters.Add(new ($"@{nameof(User.NickName)}", SqlDbType.NVarChar) { Value = user.NickName });
+        command.Parameters.Add(new ($"@{nameof(User.ProfilePicture)}", SqlDbType.NVarChar) { Value = user.ProfilePicture });
 
-        using var reader = await command.ExecuteReaderAsync();
-        return await reader.ReadAsync() ? MapUserFromReader(reader) : null;
+        await command.ExecuteNonQueryAsync();
     }
 
-    public Task<IEnumerable<User>> GetAll()
+    public async Task Update(User user)
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(config["Database:ConnectionString"]);
+        await connection.OpenAsync();
+
+        using var command =
+            new SqlCommand("UPDATE Users SET NickName = @NickName, ProfilePicture = @ProfilePicture WHERE Id = @Id",
+                connection);
+        command.Parameters.Add(new ($"@{nameof(User.Id)}", SqlDbType.NVarChar) { Value = user.Id });
+        command.Parameters.Add(new ($"@{nameof(User.NickName)}", SqlDbType.NVarChar) { Value = user.NickName });
+        command.Parameters.Add(new ($"@{nameof(User.ProfilePicture)}", SqlDbType.NVarChar) { Value = user.ProfilePicture });
+
+        await command.ExecuteNonQueryAsync();
     }
 
-    public Task Add(User entity)
+    public async Task Delete(string id)
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(config["Database:ConnectionString"]);
+        await connection.OpenAsync();
+
+        using var command = new SqlCommand("DELETE FROM Users WHERE Id = @Id", connection);
+        command.Parameters.Add(new ($"@{nameof(User.Id)}", SqlDbType.NVarChar) { Value = id });
+
+        await command.ExecuteNonQueryAsync();
     }
 
-    public Task Update(User entity)
+    private User? MapUserFromReader(SqlDataReader reader)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task Delete(string id)
-    {
-        throw new NotImplementedException();
-    }
-
-    private User MapUserFromReader(SqlDataReader reader)
-    {
-        return new User
+        return new ()
         {
-            Id = reader["Id"].ToString(),
-            NickName = reader["NickName"].ToString(),
-            ProfilePicture = reader["ProfilePicture"].ToString()
+            Id = reader[nameof(User.Id)].ToString()!,
+            NickName = reader[nameof(User.NickName)].ToString()!,
+            ProfilePicture = reader[nameof(User.ProfilePicture)].ToString()!
         };
     }
 }

@@ -4,13 +4,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace BallestLane.IntegrationTests;
 
-public class MsSqlTestContainerFixture : IAsyncLifetime
+public class TestContainerFixture : IAsyncLifetime
 {
     public MsSqlContainer Container { get; }
     public IConfiguration Config { get; }
-    public AppDbContext Db { get; set; }
+    public AppDbContext Db { get; }
 
-    public MsSqlTestContainerFixture()
+    public TestContainerFixture()
     {
         Container = new MsSqlBuilder()
             .WithPassword(Guid.NewGuid().ToString("D"))
@@ -22,20 +22,16 @@ public class MsSqlTestContainerFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
         await Container.StartAsync();
-        var conneciton = Container.GetConnectionString();
+        var connection = Container.GetConnectionString();
 
-        Config["Database:ConnectionString"] = conneciton;
+        Config["Database:ConnectionString"] = connection;
         await Db.Database.EnsureCreatedAsync();
     }
+
 
     public async Task DisposeAsync()
     {
         await Db.DisposeAsync();
         await Container.StopAsync();
     }
-
-    // public MsSqlTestContainerFixture WithCompanies()
-    // {
-    //     return this;
-    // }
 }
