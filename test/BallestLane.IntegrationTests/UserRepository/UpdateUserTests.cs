@@ -1,20 +1,17 @@
-using BallestLane.Dal;
 using BallestLane.Entities;
 
-namespace BallestLane.IntegrationTests;
+namespace BallestLane.IntegrationTests.UserRepository;
 
 // [Collection(nameof(CustomerApiFactoryTestCollection))]
-public class UpdateUserTests(TestContainerFixture fixture) :
-    IClassFixture<TestContainerFixture>
+public class UpdateUserTests(TestContainerFixture fixture) : BaseTests(fixture)
 {
-
     [Fact]
     public async Task Update_UpdatesUserInDatabase()
     {
-        var userRepository = new UserRepository(fixture.Config);
+        var userRepository = new Dal.UserRepository(fixture.Config);
 
         // Insert test data into the database
-        await InsertTestData();
+        await InsertUserData();
 
         // Arrange
         var userToUpdate = new User
@@ -29,11 +26,5 @@ public class UpdateUserTests(TestContainerFixture fixture) :
         Assert.Equal("testUserId", result.Id);
         Assert.Equal("UpdatedUser", result.NickName);
         Assert.Equal("ipfs://updatedPicture", result.ProfilePicture);
-    }
-
-    private async Task InsertTestData()
-    {
-        fixture.Db.Users.Add(new() { Id = "testUserId", NickName = "TestUser", ProfilePicture = "ipfs://asdfas" });
-        await fixture.Db.SaveChangesAsync();
     }
 }

@@ -1,15 +1,13 @@
-using BallestLane.Dal;
 using BallestLane.Entities;
 
-namespace BallestLane.IntegrationTests;
+namespace BallestLane.IntegrationTests.UserRepository;
 
-public class AddUserTests(TestContainerFixture fixture) :
-    IClassFixture<TestContainerFixture>
+public class AddUserTests(TestContainerFixture fixture) : BaseTests(fixture)
 {
     [Fact]
     public async Task Add_AddsUserToDatabase()
     {
-        var userRepository = new UserRepository(fixture.Config);
+        var userRepository = new Dal.UserRepository(fixture.Config);
 
         // Arrange
         var userToAdd = new User { Id = "newUserId", NickName = "NewUser", ProfilePicture = "ipfs://newUserPicture" };
