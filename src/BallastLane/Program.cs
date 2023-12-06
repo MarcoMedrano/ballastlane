@@ -25,13 +25,7 @@ builder.Services.AddRazorComponents()
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    context.Database.EnsureDeleted();
-    context.Database.EnsureCreated();
-    if(config["Database:GenerateTestData"] == "true") context.SeedData();
-}
+app.UseBallestlaneDb();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
