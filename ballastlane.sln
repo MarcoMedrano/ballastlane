@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallestLane.Entities", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallastLane", "src\BallastLane\BallastLane.csproj", "{90D2744F-4044-4441-AE73-819248B1DADC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallestLane.IntegrationTests", "test\BallestLane.IntegrationTests\BallestLane.IntegrationTests.csproj", "{57E2041E-6CA6-475D-AAD9-0B3C2D2666C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{90D2744F-4044-4441-AE73-819248B1DADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90D2744F-4044-4441-AE73-819248B1DADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90D2744F-4044-4441-AE73-819248B1DADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57E2041E-6CA6-475D-AAD9-0B3C2D2666C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57E2041E-6CA6-475D-AAD9-0B3C2D2666C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57E2041E-6CA6-475D-AAD9-0B3C2D2666C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57E2041E-6CA6-475D-AAD9-0B3C2D2666C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{8D4849D4-A030-4664-86D1-C7069F16FA8B} = {E00C47BA-3F9B-4B08-9FA9-151F99200555}
 		{50C531E6-3F8B-4582-AEAD-4D6A93829B55} = {E00C47BA-3F9B-4B08-9FA9-151F99200555}
 		{90D2744F-4044-4441-AE73-819248B1DADC} = {E00C47BA-3F9B-4B08-9FA9-151F99200555}
+		{57E2041E-6CA6-475D-AAD9-0B3C2D2666C8} = {0D7A2A13-C1C8-4D5F-96DF-5E3EE557E9F9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1E382AF1-FD3A-44F4-B956-7AEC5183E1D6}
