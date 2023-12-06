@@ -1,6 +1,7 @@
+using BallastLane.Api;
+using BallastLane.Api.Authorization;
 using BallastLane.Client.Pages;
 using BallastLane.Components;
-using BallastLane.Controllers;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -15,7 +16,7 @@ services.AddBallestlaneServices();
 services.AddAballestlaneDbContext(builder.Configuration);
 
 // Add services to the container.
-services.AddControllers().PartManager.ApplicationParts.Add(new AssemblyPart(typeof(WeatherForecastController).Assembly));;
+services.AddControllers().PartManager.ApplicationParts.Add(new AssemblyPart(typeof(NftsController).Assembly));;
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
@@ -26,7 +27,7 @@ builder.Services.AddRazorComponents()
 var app = builder.Build();
 
 app.UseBallestlaneDb();
-
+app.UseMiddleware<SiweJwtMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

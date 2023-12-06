@@ -1,5 +1,7 @@
-﻿using BallestLane.Business;
+﻿using BallastLane.Api.Authorization;
+using BallestLane.Business;
 using BallestLane.Dal;
+using Nethereum.Siwe;
 
 namespace BallastLane.Extensions;
 
@@ -12,6 +14,11 @@ public static class BallestlaneServicesExtensions
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<INftRepository, NftRepository>();
+
+        // Authorization
+        services.AddSingleton<ISessionStorage, InMemorySessionNonceStorage>();
+        services.AddScoped<SiweMessageService>();
+        services.AddScoped<ISiweJwtAuthorizationService, SiweJwtAuthorizationService>();
 
         return services;
     }
