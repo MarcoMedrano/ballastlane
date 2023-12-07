@@ -3,7 +3,7 @@
     {
         <AuthorizeView Roles=@Roles.WalletAuthenticated>
             <Authorized>
-                <MudImage Src="images/metamask.svg" Alt="Connected" Class="pa-1"/>
+                <MudImage Src="images/metamask.svg" Alt="Connected" Class="pa-1" @onclick="@LoginToServer"/>
             </Authorized>
             <NotAuthorized>
                 @if (authorizingInProgress)

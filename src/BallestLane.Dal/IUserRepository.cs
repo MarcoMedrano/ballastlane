@@ -1,6 +1,4 @@
-﻿using BallestLane.Entities;
-
-namespace BallestLane.Dal;
+﻿namespace BallestLane.Dal;
 
 public interface IUserRepository : IRepository<User, string>
 {

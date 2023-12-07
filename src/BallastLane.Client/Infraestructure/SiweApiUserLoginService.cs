@@ -4,19 +4,16 @@ using Nethereum.Siwe.Core;
 
 namespace BallastLane.Client.Infraestructure;
 
-public class SiweApiUserLoginService
+public class SiweApiUserLoginService(HttpClient httpClient)
 {
-    private readonly HttpClient _httpClient;
-
-    public SiweApiUserLoginService(HttpClient httpClient)
-    {
-        _httpClient = httpClient;
-    }
-
     public async Task<string> GenerateNewSiweMessage(string address, ulong chainId)
     {
-        var message = new SiweMessageSeed { Address = address, ChainId = chainId };
-        var response = await _httpClient.PostAsJsonAsync("authentication/newsiwemessage", message);
+        var baseUrl = httpClient.BaseAddress.ToString();
+        int index = baseUrl.LastIndexOf('/');
+        if (index >= 0) baseUrl = baseUrl.Remove(index, 1);
+
+        var message = new SiweMessageSeed { Address = address, ChainId = chainId, Uri = baseUrl};
+        var response = await httpClient.PostAsJsonAsync("api/Authentication/newsiwemessage", message);
 
         return await response.Content.ReadAsStringAsync();
     }
@@ -31,7 +28,7 @@ public class SiweApiUserLoginService
             Signature = signature
         };
 
-        var response = await _httpClient.PostAsJsonAsync("authentication/authenticate", request);
+        var response = await httpClient.PostAsJsonAsync("api/Authentication/authenticate", request);
 
         return await response.Content.ReadFromJsonAsync<AuthenticateResponse>();
     }
@@ -40,7 +37,7 @@ public class SiweApiUserLoginService
     {
         try
         {
-            var user = await _httpClient.GetAsync<UserDto>("authentication/getuser", token);
+            var user = await httpClient.GetAsync<UserDto>("api/Authentication/getuser", token);
             return user;
         }
         catch (Exception ex)
@@ -54,7 +51,7 @@ public class SiweApiUserLoginService
     {
         try
         {
-            await _httpClient.PostAsync("authentication/logout", null, token);
+            await httpClient.PostAsync("api/Authentication/logout", null, token);
         }
         catch (Exception ex)
         {
@@ -62,5 +59,4 @@ public class SiweApiUserLoginService
             throw;
         }
     }
-
 }

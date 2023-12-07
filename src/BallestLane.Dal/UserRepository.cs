@@ -4,7 +4,7 @@ namespace BallestLane.Dal;
 
 public class UserRepository(IConfiguration config) : IUserRepository
 {
-    public async Task<User?> GetById(string id)
+    public async Task<User> GetById(string id)
     {
         await using var connection = new SqlConnection(config["Database:ConnectionString"]);
         await connection.OpenAsync();
@@ -13,10 +13,10 @@ public class UserRepository(IConfiguration config) : IUserRepository
         command.Parameters.Add(new ($"@{nameof(User.Id)}", SqlDbType.NVarChar) { Value = id });
 
         await using var reader = await command.ExecuteReaderAsync();
-        return await reader.ReadAsync() ? MapUserFromReader(reader) : null;
+        return (await reader.ReadAsync()) ? MapUserFromReader(reader) : null;
     }
 
-    public async Task<IEnumerable<User?>> GetAll()
+    public async Task<IEnumerable<User>> GetAll()
     {
         var users = new List<User?>();
 

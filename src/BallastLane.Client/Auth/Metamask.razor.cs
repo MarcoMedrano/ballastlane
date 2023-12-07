@@ -10,10 +10,12 @@ public partial class Metamask
 {
     private bool authorizingInProgress;
     private UserDto User => UserState!.User;
-    [CascadingParameter] private UserState? UserState { get; set; }
+    [CascadingParameter] private UserState UserState { get; set; } = null!;
 
     [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
     [Inject] private IEthereumHostProvider EthHostProvider { get; set; } = null!;
+    [Inject] SiweAuthenticationStateProvider AuthState { get; set; }
+
 
     private bool MetamaskAvailable { get; set; }
 
@@ -30,7 +32,7 @@ public partial class Metamask
         authorizingInProgress = true;
         try
         {
-            User.Id = await EthHostProvider.EnableProviderAsync();
+            await EthHostProvider.EnableProviderAsync();
         }
         catch (Exception e)
         {
@@ -44,6 +46,12 @@ public partial class Metamask
         if (AuthenticationStateProvider is EthereumAuthenticationStateProvider)
             ((EthereumAuthenticationStateProvider)AuthenticationStateProvider)?.NotifyStateHasChanged();
 
+        await AuthState.AuthenticateAsync(User.Id, UserState.ChainId);
         StateHasChanged();
+    }
+
+    private async Task LoginToServer()
+    {
+        await AuthState.AuthenticateAsync(User.Id, UserState.ChainId);
     }
 }

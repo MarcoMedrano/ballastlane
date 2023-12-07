@@ -17,7 +17,6 @@ public static class BallestlaneServicesExtensions
         services.AddScoped<INftRepository, NftRepository>();
 
         // Authorization
-        services.AddSingleton<UserState>();
         services.AddSingleton<ISessionStorage, InMemorySessionNonceStorage>();
         services.AddScoped<SiweMessageService>();
         services.AddScoped<ISiweJwtAuthorizationService, SiweJwtAuthorizationService>();

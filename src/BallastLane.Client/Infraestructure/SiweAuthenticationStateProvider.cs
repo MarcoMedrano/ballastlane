@@ -87,6 +87,7 @@ public class SiweAuthenticationStateProvider(SiweApiUserLoginService userLoginSe
     public async Task<UserDto> GetUserAsync()
     {
         var jwtToken = await accessTokenService.GetAsync();
+        Console.WriteLine("Jwt token is " + jwtToken);
         if (jwtToken == null) return null;
         return await userLoginService.GetUser(jwtToken);
     }

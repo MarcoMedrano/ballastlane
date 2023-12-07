@@ -1,6 +1,7 @@
 ﻿using BallastLane.Api.Authorization;
 using BallestLane.Dal;
 using BallestLane.Dtos.Auth;
+using BallestLane.Dtos.User;
 using Microsoft.AspNetCore.Mvc;
 using Nethereum.Siwe;
 using Nethereum.Siwe.Core;
@@ -8,7 +9,7 @@ using Nethereum.Util;
 
 namespace BallastLane.Api;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class AuthenticationController(SiweMessageService siweMessageService,
@@ -60,6 +61,7 @@ public class AuthenticationController(SiweMessageService siweMessageService,
         SiweMessage message = new DevSiweMessage();
         message.Address = msg.Address.ToLower().ConvertToEthereumChecksumAddress();
         message.ChainId = msg.ChainId.ToString();
+        message.Uri = msg.Uri;
 
         return Ok(siweMessageService.BuildMessageToSign(message));
     }
@@ -73,15 +75,15 @@ public class AuthenticationController(SiweMessageService siweMessageService,
     }
 
     [HttpGet("getuser")]
-    public IActionResult GetAuthenticatedUser()
+    public async Task<IActionResult> GetAuthenticatedUser()
     {
         //ethereum address
         var address = SiweJwtMiddleware.GetAddressFromContext(HttpContext);
         if (address == null) return Forbid();
 
-        var user = db.GetById(address.ToLower());
+        var user = await db.GetById(address.ToLower());
 
         if (user == null) return NotFound("User is not registered");
-        return Ok(user);
+        return Ok(user.Adapt<UserDto>());
     }
 }

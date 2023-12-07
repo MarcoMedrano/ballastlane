@@ -10,7 +10,9 @@ using Nethereum.Siwe.Core;
 
 namespace BallastLane.Api.Authorization;
 
-public class SiweJwtAuthorizationService : ISiweJwtAuthorizationService
+public class SiweJwtAuthorizationService(IOptions<AppSettings> appSettings, SiweMessageService siweMessageService,
+        IHostEnvironment env)
+    : ISiweJwtAuthorizationService
 {
     private const string ClaimTypeAddress = "address";
     private const string ClaimTypeChainId = "chainId";
@@ -20,17 +22,8 @@ public class SiweJwtAuthorizationService : ISiweJwtAuthorizationService
     private const string ClaimTypeSiweIssuedAt = "siweIssueAt";
     private const string ClaimTypeSiweNotBefore = "siweNotBefore";
 
-    private readonly AppSettings _appSettings;
-    private readonly IHostEnvironment _env;
-    private readonly SiweMessageService _siweMessageService;
-
-    public SiweJwtAuthorizationService(IOptions<AppSettings> appSettings, SiweMessageService siweMessageService,
-        IHostEnvironment env)
-    {
-        _siweMessageService = siweMessageService;
-        _env = env;
-        _appSettings = appSettings.Value;
-    }
+    private readonly AppSettings _appSettings = appSettings.Value;
+    private readonly IHostEnvironment _env = env;
 
     public string GenerateToken(SiweMessage siweMessage, string signature)
     {
@@ -63,7 +56,7 @@ public class SiweJwtAuthorizationService : ISiweJwtAuthorizationService
         return tokenHandler.WriteToken(token);
     }
 
-    public async Task<SiweMessage?> ValidateToken(string token)
+    public async Task<SiweMessage?> ValidateToken(string token, string baseUrl)
     {
         if (token == null)
             return null;
@@ -101,10 +94,11 @@ public class SiweJwtAuthorizationService : ISiweJwtAuthorizationService
             siweMessage.ExpirationTime = expiry;
             siweMessage.IssuedAt = issuedAt;
             siweMessage.NotBefore = notBefore;
+            siweMessage.Uri = baseUrl;
 
-            if (await _siweMessageService.IsMessageSignatureValid(siweMessage, signature))
-                if (_siweMessageService.IsMessageTheSameAsSessionStored(siweMessage))
-                    if (_siweMessageService.HasMessageDateStartedAndNotExpired(siweMessage))
+            if (await siweMessageService.IsMessageSignatureValid(siweMessage, signature))
+                if (siweMessageService.IsMessageTheSameAsSessionStored(siweMessage))
+                    if (siweMessageService.HasMessageDateStartedAndNotExpired(siweMessage))
                         return siweMessage;
 
             return null;

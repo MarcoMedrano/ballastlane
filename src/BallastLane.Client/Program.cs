@@ -7,7 +7,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 var services = builder.Services;
 
-services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+services.AddSingleton(sp => new HttpClient { BaseAddress = new (builder.HostEnvironment.BaseAddress) });
 services.AddMudServices();
 services.AddAuthServices();
 

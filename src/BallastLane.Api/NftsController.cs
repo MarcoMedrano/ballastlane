@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BallastLane.Api;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class NftsController(INftService service, ILogger<NftsController> logger) : ControllerBase
 {
     [HttpGet("{id}")]
