@@ -1,19 +1,25 @@
-﻿@inherits LayoutComponentBase
+﻿@using BallastLane.Client.Auth;
+
+@inherits LayoutComponentBase
+@inject UserState UserState;
 
 <div class="page">
+    <CascadingValue Value="@UserState">
     <div class="sidebar">
-        <NavMenu />
+        <NavMenu/>
     </div>
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            Login <Metamask @rendermode=@(new InteractiveWebAssemblyRenderMode(prerender: false))/>
+            @* <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a> *@
         </div>
 
         <article class="content px-4">
             @Body
         </article>
     </main>
+    </CascadingValue>
 </div>
 
 <div id="blazor-error-ui">

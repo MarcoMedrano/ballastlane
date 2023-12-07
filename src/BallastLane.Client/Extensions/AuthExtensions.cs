@@ -12,6 +12,7 @@ public static class AuthExtensions
 {
     public static IServiceCollection AddAuthServices(this IServiceCollection services)
     {
+        services.AddSingleton<UserState>();
         services.AddSingleton<IMetamaskInterop, MetamaskBlazorInterop>();
         services.AddSingleton<IEthereumHostProvider, MetamaskHostProvider>();
 
@@ -38,6 +39,7 @@ public static class AuthExtensions
         services.AddSingleton<SiweAuthenticationStateProvider>();
         services.AddSingleton<AuthenticationStateProvider>(sp => sp.GetService<SiweAuthenticationStateProvider>());
 
+        services.AddAuthorizationCore();
         return services;
     }
 }
