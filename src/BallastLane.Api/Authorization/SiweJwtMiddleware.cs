@@ -5,7 +5,7 @@ using Nethereum.Siwe.Core;
 
 namespace BallastLane.Api.Authorization;
 
-public class SiweJwtMiddleware(RequestDelegate next, IUserRepository userRepo)
+public class SiweJwtMiddleware(RequestDelegate next)
 {
     public const string ContextEthereumAddress = "ethereumAddress";
     public const string ContextSiweMessage = "siweMessage";
@@ -34,7 +34,7 @@ public class SiweJwtMiddleware(RequestDelegate next, IUserRepository userRepo)
         context.Items[ContextEthereumAddress] = address.ToLower();
     }
 
-    public async Task InvokeAsync(HttpContext context, ISiweJwtAuthorizationService siweJwtAuthorization)
+    public async Task InvokeAsync(HttpContext context, ISiweJwtAuthorizationService siweJwtAuthorization, IUserRepository userRepo)
     {
         var authHeader = context.Request.Headers["Authorization"];
 
@@ -46,15 +46,18 @@ public class SiweJwtMiddleware(RequestDelegate next, IUserRepository userRepo)
         {
             SetEthereumAddress(context, siweMessage.Address);
             SetSiweMessage(context, siweMessage);
-            await SetNewUser(siweMessage.Address);
+            await SetNewUser(siweMessage.Address, userRepo);
         }
 
         await next(context);
     }
 
-    private async Task SetNewUser(string userAddress)
+    private async Task SetNewUser(string userAddress, IUserRepository userRepo)
     {
         var user = await userRepo.GetById(userAddress);
         if (user == null) await userRepo.Add(new() { Id = userAddress, NickName = "Your nickname here.", ProfilePicture = string.Empty});
+        // var user = await userRepo.Users.FindAsync(userAddress);
+        // if (user == null) await userRepo.Users.AddAsync(new() { Id = userAddress, NickName = "Your nickname here.", ProfilePicture = string.Empty});
+        // await userRepo.SaveChangesAsync();
     }
 }

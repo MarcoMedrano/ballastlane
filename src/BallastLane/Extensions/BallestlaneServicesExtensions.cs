@@ -10,11 +10,12 @@ public static class BallestlaneServicesExtensions
 {
     public static IServiceCollection AddBallestlaneServices(this IServiceCollection services)
     {
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<INftRepository, NftRepository>();
+
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<INftService, NftService>();
 
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<INftRepository, NftRepository>();
 
         // Authorization
         services.AddSingleton<ISessionStorage, InMemorySessionNonceStorage>();
