@@ -34,16 +34,18 @@ public class SiweJwtMiddleware(RequestDelegate next)
         context.Items[ContextEthereumAddress] = address.ToLower();
     }
 
-    public async Task InvokeAsync(HttpContext context, ISiweJwtAuthorizationService siweJwtAuthorization, IUserRepository userRepo)
+    public async Task InvokeAsync(HttpContext context, ISiweJwtAuthorizationService siweJwtAuthorization, IUserRepository userRepo, ILogger<SiweJwtMiddleware> loggger)
     {
         var authHeader = context.Request.Headers["Authorization"];
 
         var token = authHeader.FirstOrDefault()?.Split(" ").Last();
+        loggger.LogDebug("Token found {0}", token);
         string baseUrl = new Uri(context.Request.GetEncodedUrl()).GetLeftPart(UriPartial.Authority);
 
         var siweMessage = await siweJwtAuthorization.ValidateToken(token, baseUrl);
         if (siweMessage != null)
         {
+            loggger.LogDebug("Token valid, setting the user in our DB");
             SetEthereumAddress(context, siweMessage.Address);
             SetSiweMessage(context, siweMessage);
             await SetNewUser(siweMessage.Address, userRepo);
@@ -56,8 +58,5 @@ public class SiweJwtMiddleware(RequestDelegate next)
     {
         var user = await userRepo.GetById(userAddress);
         if (user == null) await userRepo.Add(new() { Id = userAddress, NickName = "Your nickname here.", ProfilePicture = string.Empty});
-        // var user = await userRepo.Users.FindAsync(userAddress);
-        // if (user == null) await userRepo.Users.AddAsync(new() { Id = userAddress, NickName = "Your nickname here.", ProfilePicture = string.Empty});
-        // await userRepo.SaveChangesAsync();
     }
 }

@@ -21,6 +21,7 @@ public class UsersController(IUserService service, ILogger<UsersController> logg
     [HttpPost]
     public Task<string> Add(UserDto dto)
     {
+        logger.LogDebug("Trying to add user {0}" , dto.Id);
         this.ThrowIfNotAuthorized(dto.Id);
         return service.Add(dto.Adapt<User>());
     }
@@ -28,6 +29,7 @@ public class UsersController(IUserService service, ILogger<UsersController> logg
     [HttpPatch]
     public Task Update(UserDto dto)
     {
+        logger.LogDebug("Trying to modify user {0}" , dto.Id);
         this.ThrowIfNotAuthorized(dto.Id);
         return service.Update(dto.Adapt<User>());
     }
@@ -35,6 +37,7 @@ public class UsersController(IUserService service, ILogger<UsersController> logg
     [HttpDelete("{id}")]
     public Task Delete(string id)
     {
+        logger.LogDebug("Trying to delete user {0}" , id);
         this.ThrowIfNotAuthorized(id);
         return service.Delete(id);
     }

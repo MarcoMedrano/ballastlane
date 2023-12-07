@@ -22,7 +22,7 @@ var app = builder.Build();
 app.UseMiddleware<SiweJwtMiddleware>();
 app.UseBallestlaneDb();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment() || true)
+if (app.Environment.IsDevelopment() || true) // Only for demo proposals
 {
     app.UseSwagger();
     app.UseSwaggerUI();
