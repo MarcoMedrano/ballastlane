@@ -1,16 +1,12 @@
 using BallastLane.Api;
 using BallastLane.Api.Authorization;
-using BallastLane.Client.Pages;
-using BallastLane.Components;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
-services.TryAddScoped<IWebAssemblyHostEnvironment, ServerHostEnvironment>();
-services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(sp.GetService<IWebAssemblyHostEnvironment>().BaseAddress) });
+StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configuration);
 
 services.AddBallestlaneServices();
 services.AddAballestlaneDbContext(builder.Configuration);
@@ -20,9 +16,7 @@ services.AddControllers().PartManager.ApplicationParts.Add(new AssemblyPart(type
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents();
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -44,13 +38,15 @@ else
 
 app.UseHttpsRedirection();
 
+app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Counter).Assembly);
+app.UseRouting();
+
+
+app.MapRazorPages();
 app.MapControllers();
+app.MapFallbackToFile("index.html");
 
 app.Run();
