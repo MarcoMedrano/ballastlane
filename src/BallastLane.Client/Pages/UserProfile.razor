@@ -19,13 +19,12 @@
             <MudDivider/>
             <MudButton OnClick=@Save>Save</MudButton>
         </MudStack>
+        <NftGallery Nfts=@Nfts></NftGallery>
     </Authorized>
     <NotAuthorized>
         Please login using Metamask Icon.
     </NotAuthorized>
 </AuthorizeView>
-
-@* <MudProgressCircular Color="Color.Default" Indeterminate="true"/> *@
 
 @code {
 
@@ -35,13 +34,25 @@
     [CascadingParameter]
     UserState UserState { get; set; }
 
-    [Inject]
-    IUsersController Api { get; set; }
+    [Inject] SiweAuthenticationStateProvider AuthState { get; set; }
+
+    [Inject] IUsersController UserApi { get; set; }
 
     UserDto User => UserState.User;
+    IEnumerable<NftDto> Nfts;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(string.IsNullOrEmpty(User.Id)) return;
+        if(!await AuthState.IsServerAuthenticated()) return;
+
+        Nfts = await UserApi.GetNfts(User.Id);
+
+        base.OnParametersSetAsync();
+    }
 
     private async Task Save()
     {
-        await Api.Update(User);
+        await UserApi.Update(User);
     }
 }

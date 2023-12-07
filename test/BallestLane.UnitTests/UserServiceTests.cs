@@ -12,7 +12,7 @@ public class UserServiceTests
         var mockUserRepository = new Mock<IUserRepository>();
         mockUserRepository.Setup(r => r.GetById("validId")).ReturnsAsync(new User { Id = "validId", NickName = "JohnDoe" });
 
-        var userService = new UserService(mockUserRepository.Object);
+        var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
 
         // Act
         var result = await userService.GetById("validId");
@@ -34,7 +34,7 @@ public class UserServiceTests
             new User { Id = "user2", NickName = "Bob" }
         });
 
-        var userService = new UserService(mockUserRepository.Object);
+        var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
 
         // Act
         var result = await userService.GetAll();
@@ -50,7 +50,7 @@ public class UserServiceTests
     {
         // Arrange
         var mockUserRepository = new Mock<IUserRepository>();
-        var userService = new UserService(mockUserRepository.Object);
+        var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
 
         var newUser = new User { Id = "newUserId", NickName = "NewUser" };
 
@@ -66,7 +66,7 @@ public class UserServiceTests
     {
         // Arrange
         var mockUserRepository = new Mock<IUserRepository>();
-        var userService = new UserService(mockUserRepository.Object);
+        var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
 
         var existingUser = new User { Id = "existingUserId", NickName = "ExistingUser" };
 
@@ -82,7 +82,7 @@ public class UserServiceTests
     {
         // Arrange
         var mockUserRepository = new Mock<IUserRepository>();
-        var userService = new UserService(mockUserRepository.Object);
+        var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
 
         // Act
         await userService.Delete("deleteUserId");

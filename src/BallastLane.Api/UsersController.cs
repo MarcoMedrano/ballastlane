@@ -1,5 +1,6 @@
 using BallastLane.Api.Authorization;
 using BallastLane.Infraestructure.Api;
+using BallestLane.Dtos.Nft;
 using BallestLane.Dtos.User;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,4 +42,7 @@ public class UsersController(IUserService service, ILogger<UsersController> logg
         this.ThrowIfNotAuthorized(id);
         return service.Delete(id);
     }
+
+    [HttpGet("{id}/nfts")]
+    public async Task<IEnumerable<NftDto>?> GetNfts(string id) => (await service.GetNfts(id)).Adapt<IEnumerable<NftDto>>();
 }

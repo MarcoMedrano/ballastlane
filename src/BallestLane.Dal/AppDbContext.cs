@@ -15,13 +15,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration
     public void SeedData()
     {
         this.Users.AddRange(
-        new User { Id = "1", NickName = "User1", ProfilePicture = "path/to/picture1.jpg" },
-            new User { Id = "2", NickName = "User2", ProfilePicture = "path/to/picture2.jpg" }
+        new User { Id = "1", NickName = "User1", ProfilePicture = "https://cloudflare-ipfs.com/ipfs/bafkreidcclwqy3i3bzihltneylgpwcrg5bsk5whkpe54jcw5tsphzflbze" }
         );
 
         this.Nfts.AddRange(
-            new Nft { Name = "Nft1", IpfsImage = "ipfs://image1" },
-            new Nft { Name = "Nft2", IpfsImage = "ipfs://image2" }
+            new Nft { Name = "Nik", IpfsImage = "https://cloudflare-ipfs.com/ipfs/bafybeic5cxu67vlwcq4nepcreim2rnnuo7qeq5bzjnhjgyd7nvzxyae64m" },
+            new Nft { Name = "Guns N'cats", IpfsImage = "https://cloudflare-ipfs.com/ipfs/bafybeihdy6e7ah357phyoqrvsdw4mqrkbshvfwfjocv7ubivuwb7mctor4" }
         );
 
         this.SaveChanges();

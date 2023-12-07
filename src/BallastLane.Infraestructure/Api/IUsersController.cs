@@ -1,4 +1,5 @@
-﻿using BallestLane.Dtos.User;
+﻿using BallestLane.Dtos.Nft;
+using BallestLane.Dtos.User;
 using Refit;
 
 namespace BallastLane.Infraestructure.Api;
@@ -19,4 +20,7 @@ public interface IUsersController
 
     [Delete("/api/users/{id}")]
     Task Delete(string id);
+
+    [Get("/api/users/{id}/nfts")]
+    Task<IEnumerable<NftDto>?> GetNfts(string id);
 }

@@ -9,6 +9,7 @@ public static class ApiExtensions
         services.AddScoped<BearerTokenHandler>();
 
         services.AddRefit<IUsersController>(baseUrl);
+        services.AddRefit<INftsController>(baseUrl);
 
         return services;
     }

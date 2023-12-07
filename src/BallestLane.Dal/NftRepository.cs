@@ -16,6 +16,22 @@ public class NftRepository(IConfiguration config) : INftRepository
         return null; // Or throw an exception if you prefer
     }
 
+    public async Task<IEnumerable<Nft>> GetByUserId(string userId)
+    {
+        await using var connection = new SqlConnection(config["Database:ConnectionString"]);
+        await connection.OpenAsync();
+
+        await using var command = new SqlCommand("SELECT * FROM Nfts WHERE UserId = @Id", connection);
+        command.Parameters.AddWithValue($"@{nameof(Nft.Id)}", userId);
+
+        await using var reader = await command.ExecuteReaderAsync();
+        var nfts = new List<Nft>();
+
+        while (await reader.ReadAsync()) nfts.Add(MapNftFromReader(reader));
+
+        return nfts;
+    }
+
     public async Task<IEnumerable<Nft>> GetAll()
     {
         await using var connection = new SqlConnection(config["Database:ConnectionString"]);
@@ -70,10 +86,12 @@ public class NftRepository(IConfiguration config) : INftRepository
 
     private static Nft MapNftFromReader(SqlDataReader reader)
     {
+        int userIdIndex = reader.GetOrdinal(nameof(Nft.UserId));
+        var userid = reader.IsDBNull(userIdIndex) ? string.Empty : reader.GetString(userIdIndex);
         return new()
         {
             Id = (long)reader[nameof(Nft.Id)],
-            UserId = (string)reader[nameof(Nft.UserId)],
+            UserId = userid,
             Name = (string)reader[nameof(Nft.Name)],
             IpfsImage = (string)reader[nameof(Nft.IpfsImage)]
         };
