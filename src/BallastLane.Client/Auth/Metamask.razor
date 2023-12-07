@@ -1,9 +1,7 @@
-@* @rendermode InteractiveWebAssembly *@
-
 <MudAvatar Color="Color.Warning" Variant="Variant.Outlined">
     @if (MetamaskAvailable)
     {
-        <AuthorizeView Roles=Roles.WalletAuthenticated>
+        <AuthorizeView Roles=@Roles.WalletAuthenticated>
             <Authorized>
                 <MudImage Src="images/metamask.svg" Alt="Connected" Class="pa-1"/>
             </Authorized>
