@@ -15,6 +15,7 @@ public class GetNftByIdTests(TestContainerFixture fixture) : BaseTests(fixture)
         // Assert
         Assert.NotNull(nft);
         Assert.Equal(1, nft.Id);
+        Assert.Equal("1", nft.UserId);
         Assert.Equal("TestNft1", nft.Name);
     }
 }

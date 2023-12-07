@@ -37,7 +37,7 @@ public class NftRepository(IConfiguration config) : INftRepository
         await connection.OpenAsync();
 
         using var command = new SqlCommand(
-            "INSERT INTO Nfts (Name, IpfsImage) VALUES (@Name, @IpfsImage); SELECT SCOPE_IDENTITY();", connection);
+            "INSERT INTO Nfts (UserId, Name, IpfsImage) VALUES (@UserId, @Name, @IpfsImage); SELECT SCOPE_IDENTITY();", connection);
 
         MapNftToParameters(command.Parameters, entity);
         var res = await command.ExecuteScalarAsync();
@@ -50,7 +50,7 @@ public class NftRepository(IConfiguration config) : INftRepository
         await connection.OpenAsync();
 
         await using var command = new SqlCommand(
-            "UPDATE Nfts SET Name = @Name, IpfsImage = @IpfsImage WHERE Id = @Id", connection);
+            "UPDATE Nfts SET UserId = @UserId, Name = @Name, IpfsImage = @IpfsImage WHERE Id = @Id", connection);
 
         MapNftToParameters(command.Parameters, entity);
 
@@ -73,6 +73,7 @@ public class NftRepository(IConfiguration config) : INftRepository
         return new()
         {
             Id = (long)reader[nameof(Nft.Id)],
+            UserId = (string)reader[nameof(Nft.UserId)],
             Name = (string)reader[nameof(Nft.Name)],
             IpfsImage = (string)reader[nameof(Nft.IpfsImage)]
         };
@@ -81,6 +82,7 @@ public class NftRepository(IConfiguration config) : INftRepository
     private static void MapNftToParameters(SqlParameterCollection parameters, Nft entity)
     {
         parameters.AddWithValue($"@{nameof(Nft.Id)}", entity.Id);
+        parameters.AddWithValue($"@{nameof(Nft.UserId)}", entity.UserId);
         parameters.AddWithValue($"@{nameof(Nft.Name)}", entity.Name);
         parameters.AddWithValue($"@{nameof(Nft.IpfsImage)}", entity.IpfsImage);
     }

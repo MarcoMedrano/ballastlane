@@ -28,8 +28,8 @@ public class NftServiceTests
         var mockNftRepository = new Mock<INftRepository>();
         mockNftRepository.Setup(r => r.GetAll()).ReturnsAsync(new List<Nft>
         {
-            new Nft { Id = 1, IpfsImage = "ipfs://image1" },
-            new Nft { Id = 2, IpfsImage = "ipfs://image2" }
+            new Nft { Id = 1, UserId = "1", IpfsImage = "ipfs://image1" },
+            new Nft { Id = 2, UserId = "1", IpfsImage = "ipfs://image2" }
         });
 
         var nftService = new NftService(mockNftRepository.Object);
@@ -50,7 +50,7 @@ public class NftServiceTests
         var mockNftRepository = new Mock<INftRepository>();
         var nftService = new NftService(mockNftRepository.Object);
 
-        var newNft = new Nft { Id = 3, IpfsImage = "ipfs://image3" };
+        var newNft = new Nft { Id = 3, UserId = "1", IpfsImage = "ipfs://image3" };
 
         // Act
         await nftService.Add(newNft);
@@ -66,7 +66,7 @@ public class NftServiceTests
         var mockNftRepository = new Mock<INftRepository>();
         var nftService = new NftService(mockNftRepository.Object);
 
-        var existingNft = new Nft { Id = 4, IpfsImage = "ipfs://image4" };
+        var existingNft = new Nft { Id = 4, UserId = "1", IpfsImage = "ipfs://image4" };
 
         // Act
         await nftService.Update(existingNft);

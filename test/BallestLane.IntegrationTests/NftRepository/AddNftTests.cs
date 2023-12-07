@@ -9,11 +9,12 @@ public class AddNftTests(TestContainerFixture fixture) : BaseTests(fixture)
     {
         // Arrange
         var repository = new Dal.NftRepository(fixture.Config);
+        await InsertUserData();
 
         // Act
         await repository.Add(new Nft
         {
-            Id = 1,
+            UserId = "1",
             Name = "Test Nft",
             IpfsImage = "ipfs://testimage"
         });
