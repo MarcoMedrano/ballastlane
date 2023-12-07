@@ -1,12 +1,12 @@
 ﻿@page "/user"
 @using BallastLane.Infraestructure.Api
+@using System.Data
 
 
 <PageTitle>User Profile</PageTitle>
 
 <AuthorizeView Roles=@Roles.ServerAuthenticated>
     <Authorized>
-
         <MudStack AlignItems="AlignItems.Center">
             <MudAvatar Style="height:128px; width:128px;">
                 <MudImage Src=@User.ProfilePicture></MudImage>
@@ -20,22 +20,30 @@
             <MudButton OnClick=@Save>Save</MudButton>
         </MudStack>
         <NftGallery Nfts=@Nfts></NftGallery>
+        <MudFab StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" Class="fab" Color="Color.Primary" OnClick=@CreateNft />
     </Authorized>
     <NotAuthorized>
         Please login using Metamask Icon.
     </NotAuthorized>
 </AuthorizeView>
 
+<style>
+    .fab {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    }
+</style>
+
 @code {
 
     [Parameter]
     public bool Edit { get; set; } = true;
 
-    [CascadingParameter]
-    UserState UserState { get; set; }
+    [CascadingParameter] UserState UserState { get; set; }
 
+    [Inject] IDialogService DialogService { get; set; }
     [Inject] SiweAuthenticationStateProvider AuthState { get; set; }
-
     [Inject] IUsersController UserApi { get; set; }
 
     UserDto User => UserState.User;
@@ -54,5 +62,14 @@
     private async Task Save()
     {
         await UserApi.Update(User);
+    }
+
+    private async Task CreateNft()
+    {
+        var result = await DialogService.Show<NftCreateDialog>().Result;
+
+        if(result.Canceled) return;
+        Nfts = await UserApi.GetNfts(User.Id);
+        StateHasChanged();
     }
 }

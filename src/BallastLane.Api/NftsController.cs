@@ -1,3 +1,4 @@
+using BallastLane.Api.Authorization;
 using BallastLane.Infraestructure.Api;
 using BallestLane.Dtos.Nft;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,21 @@ public class NftsController(INftService service, ILogger<NftsController> logger)
     [HttpGet]
     public async Task<IEnumerable<NftDto>?> Get() => (await service.GetAll()).Adapt<IEnumerable<NftDto>>();
 
+    [Authorize]
     [HttpPost]
-    public Task<long> Add(NftCreateDto dto) => service.Add(dto.Adapt<Nft>());
+    public Task<long> Add(NftCreateDto dto)
+    {
+        var nft = dto.Adapt<Nft>();
+        nft.UserId = SiweJwtMiddleware.GetAddressFromContext(HttpContext);
 
+        return service.Add(nft);
+    }
+
+    [Authorize]
     [HttpPatch]
     public Task Update(NftDto dto) => service.Update(dto.Adapt<Nft>());
 
+    [Authorize]
     [HttpDelete("{id}")]
     public Task Delete(long id) => service.Delete(id);
 }
