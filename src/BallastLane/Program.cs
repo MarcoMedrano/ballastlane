@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configuration);
-
 services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 services.AddBallestlaneServices();
 services.AddAballestlaneDbContext(builder.Configuration);
@@ -20,7 +19,6 @@ services.AddSwaggerGen();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
-
 app.UseMiddleware<SiweJwtMiddleware>();
 app.UseBallestlaneDb();
 // Configure the HTTP request pipeline.

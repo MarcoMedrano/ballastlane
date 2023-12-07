@@ -14,8 +14,8 @@
             <MudText Typo="Typo.caption">@User.Id</MudText>
             <MudDivider/>
             <br/>
-            <MudTextField T=@string bind-Value=@User.NickName Variant=@Variant.Text Label="NickName" ReadOnly=@(!Edit) Required=@true/>
-            <MudTextField T=@string bind-Value=@User.ProfilePicture Variant=@Variant.Text Label="Profile Picture Url" ReadOnly=@(!Edit) Required=@true/>
+            <MudTextField T=@string @bind-Value=@User.NickName Variant=@Variant.Text Label="NickName" ReadOnly=@(!Edit) Required=@true/>
+            <MudTextField T=@string @bind-Value=@User.ProfilePicture Variant=@Variant.Text Label="Profile Picture Url" ReadOnly=@(!Edit) Required=@true/>
             <MudDivider/>
             <MudButton OnClick=@Save>Save</MudButton>
         </MudStack>
@@ -39,13 +39,6 @@
     IUsersController Api { get; set; }
 
     UserDto User => UserState.User;
-
-    protected override async Task OnParametersSetAsync()
-    {
-        if (string.IsNullOrEmpty(User.Id)) return;
-        UserState.User = await Api.GetById(User.Id);
-        StateHasChanged();
-    }
 
     private async Task Save()
     {

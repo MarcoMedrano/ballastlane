@@ -75,15 +75,15 @@ public class AuthenticationController(SiweMessageService siweMessageService,
     }
 
     [HttpGet("getuser")]
-    public async Task<IActionResult> GetAuthenticatedUser()
+    public async Task<UserDto?> GetAuthenticatedUser()
     {
         //ethereum address
         var address = SiweJwtMiddleware.GetAddressFromContext(HttpContext);
-        if (address == null) return Forbid();
+        if (address == null) return null;
 
         var user = await db.GetById(address.ToLower());
 
-        if (user == null) return NotFound("User is not registered");
-        return Ok(user.Adapt<UserDto>());
+        if (user == null) return null;
+        return user.Adapt<UserDto>();
     }
 }

@@ -20,7 +20,6 @@ public class SiweAuthenticationStateProvider(SiweApiUserLoginService userLoginSe
         if (currentUser != null && currentUser.Id != null)
         {
             userState.User = currentUser;
-            Console.WriteLine("SETTIN UERS to " + currentUser.NickName);
             //create claimsPrincipal
             var claimsPrincipal = GenerateSiweClaimsPrincipal(currentUser);
             return new (claimsPrincipal);
