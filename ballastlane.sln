@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallastLane", "src\BallastL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallestLane.IntegrationTests", "test\BallestLane.IntegrationTests\BallestLane.IntegrationTests.csproj", "{57E2041E-6CA6-475D-AAD9-0B3C2D2666C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallastLane.Infraestructure", "src\BallastLane.Infraestructure\BallastLane.Infraestructure.csproj", "{C1100120-093C-4736-BB7D-B2AE2E579889}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{57E2041E-6CA6-475D-AAD9-0B3C2D2666C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57E2041E-6CA6-475D-AAD9-0B3C2D2666C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57E2041E-6CA6-475D-AAD9-0B3C2D2666C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1100120-093C-4736-BB7D-B2AE2E579889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1100120-093C-4736-BB7D-B2AE2E579889}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1100120-093C-4736-BB7D-B2AE2E579889}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1100120-093C-4736-BB7D-B2AE2E579889}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{50C531E6-3F8B-4582-AEAD-4D6A93829B55} = {E00C47BA-3F9B-4B08-9FA9-151F99200555}
 		{90D2744F-4044-4441-AE73-819248B1DADC} = {E00C47BA-3F9B-4B08-9FA9-151F99200555}
 		{57E2041E-6CA6-475D-AAD9-0B3C2D2666C8} = {0D7A2A13-C1C8-4D5F-96DF-5E3EE557E9F9}
+		{C1100120-093C-4736-BB7D-B2AE2E579889} = {E00C47BA-3F9B-4B08-9FA9-151F99200555}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1E382AF1-FD3A-44F4-B956-7AEC5183E1D6}

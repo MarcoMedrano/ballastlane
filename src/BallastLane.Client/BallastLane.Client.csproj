@@ -11,9 +11,12 @@
     <PackageReference Include="MudBlazor" Version="6.11.1" />
     <PackageReference Include="Nethereum.Metamask" Version="4.18.0" />
     <PackageReference Include="Nethereum.Metamask.Blazor" Version="4.18.0" />
+    <PackageReference Include="Refit" Version="7.0.0" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BallastLane.Infraestructure\BallastLane.Infraestructure.csproj" />
     <ProjectReference Include="..\BallestLane.Dtos\BallestLane.Dtos.csproj" />
   </ItemGroup>
 

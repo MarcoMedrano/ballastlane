@@ -10,6 +10,7 @@ var services = builder.Services;
 services.AddSingleton(sp => new HttpClient { BaseAddress = new (builder.HostEnvironment.BaseAddress) });
 services.AddMudServices();
 services.AddAuthServices();
+services.AddApiService(builder.HostEnvironment.BaseAddress);
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");

@@ -24,7 +24,7 @@ var app = builder.Build();
 app.UseMiddleware<SiweJwtMiddleware>();
 app.UseBallestlaneDb();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || true)
 {
     app.UseSwagger();
     app.UseSwaggerUI();

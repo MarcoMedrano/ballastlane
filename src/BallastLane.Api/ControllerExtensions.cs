@@ -1,7 +1,6 @@
 using BallastLane.Api.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BallastLane.Api;
 
 public static class ControllerExtensions
 {

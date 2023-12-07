@@ -20,6 +20,7 @@ public class SiweAuthenticationStateProvider(SiweApiUserLoginService userLoginSe
         if (currentUser != null && currentUser.Id != null)
         {
             userState.User = currentUser;
+            Console.WriteLine("SETTIN UERS to " + currentUser.NickName);
             //create claimsPrincipal
             var claimsPrincipal = GenerateSiweClaimsPrincipal(currentUser);
             return new (claimsPrincipal);
@@ -61,6 +62,7 @@ public class SiweAuthenticationStateProvider(SiweApiUserLoginService userLoginSe
         if (user == null) throw new ("User null as token not found.");
 
         userState.User = user;
+        Console.WriteLine("SET user " + user.NickName);
         var claimsPrincipal = GenerateSiweClaimsPrincipal(user);
 
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
@@ -87,7 +89,6 @@ public class SiweAuthenticationStateProvider(SiweApiUserLoginService userLoginSe
     public async Task<UserDto> GetUserAsync()
     {
         var jwtToken = await accessTokenService.GetAsync();
-        Console.WriteLine("Jwt token is " + jwtToken);
         if (jwtToken == null) return null;
         return await userLoginService.GetUser(jwtToken);
     }

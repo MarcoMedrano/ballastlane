@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BallastLane.Infraestructure\BallastLane.Infraestructure.csproj" />
     <ProjectReference Include="..\BallestLane.Business\BallestLane.Business.csproj" />
     <ProjectReference Include="..\BallestLane.Dal\BallestLane.Dal.csproj" />
     <ProjectReference Include="..\BallestLane.Dtos\BallestLane.Dtos.csproj" />
