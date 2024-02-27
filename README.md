@@ -19,3 +19,12 @@ As a blockchain user I want to have a NFT gallery so that I can list visually th
 
 #### Acceptance Criteria.
 * An Nft should hold its id, name and ipfs image.
+
+___
+### Run the app
+```shell
+docker compose up
+```
+And open http://localhost:8080
+
+Swagger at http://localhost:8080/swagger
