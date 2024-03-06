@@ -1,4 +1,6 @@
 ﻿
+using Ballastlane.Domain.Repositories;
+
 namespace BallestLane.UnitTests;
 
 public class NftServiceTests

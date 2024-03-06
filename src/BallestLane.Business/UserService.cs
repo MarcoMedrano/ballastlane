@@ -1,5 +1,4 @@
-﻿using BallestLane.Dal;
-using BallestLane.Dtos.Nft;
+﻿using Ballastlane.Domain.Repositories;
 using BallestLane.Entities;
 
 namespace BallestLane.Business;

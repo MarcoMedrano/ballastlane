@@ -1,4 +1,6 @@
-﻿namespace BallestLane.Dal;
+﻿using Ballastlane.Domain.Repositories;
+
+namespace BallestLane.Dal;
 
 public class NftRepository(IConfiguration config) : INftRepository
 {

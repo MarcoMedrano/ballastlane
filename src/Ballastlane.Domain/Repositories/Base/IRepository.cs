@@ -1,4 +1,4 @@
-﻿namespace BallestLane.Dal;
+﻿namespace Ballastlane.Domain.Repositories.Base;
 
 /// <summary>
 /// Generic repository interface for basic CRUD operations on entities.

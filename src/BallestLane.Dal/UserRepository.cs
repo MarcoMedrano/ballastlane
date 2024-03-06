@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using Ballastlane.Domain.Repositories;
 
 namespace BallestLane.Dal;
 

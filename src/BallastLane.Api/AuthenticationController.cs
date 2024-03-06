@@ -1,4 +1,5 @@
 ﻿using BallastLane.Api.Authorization;
+using Ballastlane.Domain.Repositories;
 using BallestLane.Dal;
 using BallestLane.Dtos.Auth;
 using BallestLane.Dtos.User;

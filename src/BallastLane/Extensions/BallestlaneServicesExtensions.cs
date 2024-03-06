@@ -1,5 +1,6 @@
 ﻿using BallastLane.Api.Authorization;
 using BallastLane.Client;
+using Ballastlane.Domain.Repositories;
 using BallestLane.Business;
 using BallestLane.Dal;
 using Nethereum.Siwe;
