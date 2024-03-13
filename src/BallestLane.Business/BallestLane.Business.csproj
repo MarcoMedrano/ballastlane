@@ -10,6 +10,16 @@
     <ProjectReference Include="..\BallestLane.Dal\BallestLane.Dal.csproj" />
     <ProjectReference Include="..\BallestLane.Dtos\BallestLane.Dtos.csproj" />
     <ProjectReference Include="..\BallestLane.Entities\BallestLane.Entities.csproj" />
+    <ProjectReference Include="..\BallastLane.Application\BallastLane.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Users/Events/" />
+    <Folder Include="Users/Queries/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
   </ItemGroup>
 
 </Project>
