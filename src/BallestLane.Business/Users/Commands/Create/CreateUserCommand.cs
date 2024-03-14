@@ -2,4 +2,4 @@
 
 namespace BallestLane.Business;
 
-public sealed record CreateUserCommand(string Nickname, string? ProfilePicture) : ICommand<string>;
+public sealed record CreateUserCommand(string Id, string Nickname, string? ProfilePicture) : ICommand<string>;

@@ -41,10 +41,10 @@ public class UserRepository(IConfiguration config) : IUserRepository
         await connection.OpenAsync();
 
         using var command =
-            new SqlCommand("INSERT INTO Users (Id, NickName, ProfilePicture) VALUES (@Id, @NickName, @ProfilePicture)",
+            new SqlCommand("INSERT INTO Users (Id, Nickname, ProfilePicture) VALUES (@Id, @Nickname, @ProfilePicture)",
                 connection);
         command.Parameters.Add(new ($"@{nameof(User.Id)}", SqlDbType.NVarChar) { Value = user.Id });
-        command.Parameters.Add(new ($"@{nameof(User.NickName)}", SqlDbType.NVarChar) { Value = user.NickName });
+        command.Parameters.Add(new ($"@{nameof(User.Nickname)}", SqlDbType.NVarChar) { Value = user.Nickname });
         command.Parameters.Add(new ($"@{nameof(User.ProfilePicture)}", SqlDbType.NVarChar) { Value = user.ProfilePicture });
 
         await command.ExecuteNonQueryAsync();
@@ -57,10 +57,10 @@ public class UserRepository(IConfiguration config) : IUserRepository
         await connection.OpenAsync();
 
         using var command =
-            new SqlCommand("UPDATE Users SET NickName = @NickName, ProfilePicture = @ProfilePicture WHERE Id = @Id",
+            new SqlCommand("UPDATE Users SET Nickname = @Nickname, ProfilePicture = @ProfilePicture WHERE Id = @Id",
                 connection);
         command.Parameters.Add(new ($"@{nameof(User.Id)}", SqlDbType.NVarChar) { Value = user.Id });
-        command.Parameters.Add(new ($"@{nameof(User.NickName)}", SqlDbType.NVarChar) { Value = user.NickName });
+        command.Parameters.Add(new ($"@{nameof(User.Nickname)}", SqlDbType.NVarChar) { Value = user.Nickname });
         command.Parameters.Add(new ($"@{nameof(User.ProfilePicture)}", SqlDbType.NVarChar) { Value = user.ProfilePicture });
 
         await command.ExecuteNonQueryAsync();
@@ -82,7 +82,7 @@ public class UserRepository(IConfiguration config) : IUserRepository
         return new ()
         {
             Id = reader[nameof(User.Id)].ToString()!,
-            NickName = reader[nameof(User.NickName)].ToString()!,
+            Nickname = reader[nameof(User.Nickname)].ToString()!,
             ProfilePicture = reader[nameof(User.ProfilePicture)].ToString()!
         };
     }

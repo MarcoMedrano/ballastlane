@@ -61,7 +61,7 @@ public class SiweAuthenticationStateProvider(SiweApiUserLoginService userLoginSe
         if (user == null) throw new ("User null as token not found.");
 
         userState.User = user;
-        Console.WriteLine("SET user " + user.NickName);
+        Console.WriteLine("SET user " + user.Nickname);
         var claimsPrincipal = GenerateSiweClaimsPrincipal(user);
 
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
@@ -105,10 +105,10 @@ public class SiweAuthenticationStateProvider(SiweApiUserLoginService userLoginSe
 
     private ClaimsPrincipal GenerateSiweClaimsPrincipal(UserDto currentUser)
     {
-        ArgumentException.ThrowIfNullOrEmpty(currentUser.NickName);
+        ArgumentException.ThrowIfNullOrEmpty(currentUser.Nickname);
 
         //create a claims
-        var claimName = new Claim(ClaimTypes.Name, currentUser.NickName);
+        var claimName = new Claim(ClaimTypes.Name, currentUser.Nickname);
         var claimEthereumAddress = new Claim(ClaimTypes.NameIdentifier, currentUser.Id);
         var claimEthereumConnectedRole = new Claim(ClaimTypes.Role, Roles.WalletAuthenticated);
         var claimSiweAuthenticatedRole = new Claim(ClaimTypes.Role, Roles.ServerAuthenticated);

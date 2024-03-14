@@ -14,7 +14,7 @@
             <MudText Typo="Typo.caption">@User.Id</MudText>
             <MudDivider/>
             <br/>
-            <MudTextField T=@string @bind-Value=@User.NickName Variant=@Variant.Text Label="NickName" ReadOnly=@(!Edit) Required=@true/>
+            <MudTextField T=@string @bind-Value=@User.Nickname Variant=@Variant.Text Label="Nickname" ReadOnly=@(!Edit) Required=@true/>
             <MudTextField T=@string @bind-Value=@User.ProfilePicture Variant=@Variant.Text Label="Profile Picture Url" ReadOnly=@(!Edit) Required=@true/>
             <MudDivider/>
             <MudButton OnClick=@Save>Save</MudButton>

@@ -1,6 +1,6 @@
 namespace Ballastlane.Domain.Abstractions;
 
-public interface IUnitOfWork
+public interface IDbUnitOfWork
 {
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

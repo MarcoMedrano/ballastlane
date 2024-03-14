@@ -58,6 +58,6 @@ public class SiweJwtMiddleware(RequestDelegate next)
     private async Task SetNewUser(string userAddress, IUserRepository userRepo)
     {
         var user = await userRepo.GetById(userAddress);
-        if (user == null) await userRepo.Add(new() { Id = userAddress, NickName = "Your nickname here.", ProfilePicture = string.Empty});
+        if (user == null) await userRepo.Add(new() { Id = userAddress, Nickname = "Your nickname here.", ProfilePicture = string.Empty});
     }
 }

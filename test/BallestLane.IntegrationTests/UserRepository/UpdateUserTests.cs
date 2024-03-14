@@ -15,7 +15,7 @@ public class UpdateUserTests(TestContainerFixture fixture) : BaseTests(fixture)
 
         // Arrange
         var userToUpdate = new User
-            { Id = "testUserId", NickName = "UpdatedUser", ProfilePicture = "ipfs://updatedPicture" };
+            { Id = "testUserId", Nickname = "UpdatedUser", ProfilePicture = "ipfs://updatedPicture" };
 
         // Act
         await userRepository.Update(userToUpdate);
@@ -24,7 +24,7 @@ public class UpdateUserTests(TestContainerFixture fixture) : BaseTests(fixture)
         var result = await userRepository.GetById("testUserId");
         Assert.NotNull(result);
         Assert.Equal("testUserId", result.Id);
-        Assert.Equal("UpdatedUser", result.NickName);
+        Assert.Equal("UpdatedUser", result.Nickname);
         Assert.Equal("ipfs://updatedPicture", result.ProfilePicture);
     }
 }

@@ -15,7 +15,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration
     public void SeedData()
     {
         this.Users.AddRange(
-        new User { Id = "1", NickName = "User1", ProfilePicture = "https://cloudflare-ipfs.com/ipfs/bafkreidcclwqy3i3bzihltneylgpwcrg5bsk5whkpe54jcw5tsphzflbze" }
+        new User { Id = "1", Nickname = "User1", ProfilePicture = "https://cloudflare-ipfs.com/ipfs/bafkreidcclwqy3i3bzihltneylgpwcrg5bsk5whkpe54jcw5tsphzflbze" }
         );
 
         this.Nfts.AddRange(

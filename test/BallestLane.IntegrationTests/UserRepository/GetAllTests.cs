@@ -21,7 +21,7 @@ public class GetAllTests(TestContainerFixture fixture) : BaseTests(fixture)
         var result = results.First();
         Assert.NotNull(result);
         Assert.Equal("testUserId", result.Id);
-        Assert.Equal("TestUser", result.NickName);
+        Assert.Equal("TestUser", result.Nickname);
         Assert.Equal("ipfs://asdfas", result.ProfilePicture);
     }
 }

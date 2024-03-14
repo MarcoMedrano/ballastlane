@@ -9,7 +9,7 @@ namespace BallastLane.Api;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController(IUserService service, ILogger<UsersController> logger) : ControllerBase, IUsersController
+public class UsersController(IUserCommands userCommands, IUserService service, ILogger<UsersController> logger) : ControllerBase, IUsersController
 {
     [AllowAnonymous]
     [HttpGet("{id}")]
@@ -20,11 +20,11 @@ public class UsersController(IUserService service, ILogger<UsersController> logg
     public async Task<IEnumerable<UserDto>> Get() => (await service.GetAll()).Adapt<IEnumerable<UserDto>>();
 
     [HttpPost]
-    public Task<string> Add(UserDto dto)
+    public async Task<string> Add(UserDto dto)
     {
         logger.LogDebug("Trying to add user {0}" , dto.Id);
         this.ThrowIfNotAuthorized(dto.Id);
-        return service.Add(dto.Adapt<User>());
+        return await userCommands.Add(dto.Adapt<CreateUserCommand>());
     }
 
     [HttpPatch]

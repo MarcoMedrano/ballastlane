@@ -11,7 +11,7 @@ public class UserServiceTests
     {
         // Arrange
         var mockUserRepository = new Mock<IUserRepository>();
-        mockUserRepository.Setup(r => r.GetById("validId")).ReturnsAsync(new User { Id = "validId", NickName = "JohnDoe" });
+        mockUserRepository.Setup(r => r.GetById("validId")).ReturnsAsync(new User { Id = "validId", Nickname = "JohnDoe" });
 
         var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
 
@@ -21,7 +21,7 @@ public class UserServiceTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal("validId", result.Id);
-        Assert.Equal("JohnDoe", result.NickName);
+        Assert.Equal("JohnDoe", result.Nickname);
     }
 
     [Fact]
@@ -31,8 +31,8 @@ public class UserServiceTests
         var mockUserRepository = new Mock<IUserRepository>();
         mockUserRepository.Setup(r => r.GetAll()).ReturnsAsync(new List<User>
         {
-            new User { Id = "user1", NickName = "Alice" },
-            new User { Id = "user2", NickName = "Bob" }
+            new User { Id = "user1", Nickname = "Alice" },
+            new User { Id = "user2", Nickname = "Bob" }
         });
 
         var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
@@ -53,7 +53,7 @@ public class UserServiceTests
         var mockUserRepository = new Mock<IUserRepository>();
         var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
 
-        var newUser = new User { Id = "newUserId", NickName = "NewUser" };
+        var newUser = new User { Id = "newUserId", Nickname = "NewUser" };
 
         // Act
         await userService.Add(newUser);
@@ -69,7 +69,7 @@ public class UserServiceTests
         var mockUserRepository = new Mock<IUserRepository>();
         var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
 
-        var existingUser = new User { Id = "existingUserId", NickName = "ExistingUser" };
+        var existingUser = new User { Id = "existingUserId", Nickname = "ExistingUser" };
 
         // Act
         await userService.Update(existingUser);

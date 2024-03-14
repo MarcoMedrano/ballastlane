@@ -16,7 +16,7 @@ public class GetByIdTests(TestContainerFixture fixture) : BaseTests(fixture)
         // Assert
         Assert.NotNull(result);
         Assert.Equal("testUserId", result.Id);
-        Assert.Equal("TestUser", result.NickName);
+        Assert.Equal("TestUser", result.Nickname);
         Assert.Equal("ipfs://asdfas", result.ProfilePicture);
     }
 }

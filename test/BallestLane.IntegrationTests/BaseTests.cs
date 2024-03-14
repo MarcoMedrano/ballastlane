@@ -4,9 +4,9 @@ public abstract class BaseTests(TestContainerFixture fixture) : IClassFixture<Te
 {
     protected async Task InsertUserData()
     {
-        fixture.Db.Users.Add(new() { Id = "testUserId", NickName = "TestUser", ProfilePicture = "ipfs://asdfas" });
-        fixture.Db.Users.Add(new() { Id = "1", NickName = "TestUser1", ProfilePicture = "ipfs://asdfas" });
-        fixture.Db.Users.Add(new() { Id = "2", NickName = "TestUser1", ProfilePicture = "ipfs://asdfas" });
+        fixture.Db.Users.Add(new() { Id = "testUserId", Nickname = "TestUser", ProfilePicture = "ipfs://asdfas" });
+        fixture.Db.Users.Add(new() { Id = "1", Nickname = "TestUser1", ProfilePicture = "ipfs://asdfas" });
+        fixture.Db.Users.Add(new() { Id = "2", Nickname = "TestUser1", ProfilePicture = "ipfs://asdfas" });
         await fixture.Db.SaveChangesAsync();
     }
 
