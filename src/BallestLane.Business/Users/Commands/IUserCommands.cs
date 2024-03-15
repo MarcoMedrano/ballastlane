@@ -3,8 +3,6 @@
 public interface IUserCommands
 {
     ValueTask<string> Add(CreateUserCommand createUser);
-
-    // Task Update(T nft);
-
-    // Task Delete(K id);
+    ValueTask Update(UpdateUserCommand updateUser);
+    ValueTask Delete(DeleteUserCommand deleteUser);
 }

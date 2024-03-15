@@ -22,7 +22,7 @@ public class UsersController(IUserCommands userCommands, IUserService service, I
     [HttpPost]
     public async Task<string> Add(UserDto dto)
     {
-        logger.LogDebug("Trying to add user {0}" , dto.Id);
+        logger.LogDebug("Trying to add user {0}", dto.Id);
         this.ThrowIfNotAuthorized(dto.Id);
         return await userCommands.Add(dto.Adapt<CreateUserCommand>());
     }
@@ -38,7 +38,7 @@ public class UsersController(IUserCommands userCommands, IUserService service, I
     [HttpDelete("{id}")]
     public Task Delete(string id)
     {
-        logger.LogDebug("Trying to delete user {0}" , id);
+        logger.LogDebug("Trying to delete user {0}", id);
         this.ThrowIfNotAuthorized(id);
         return service.Delete(id);
     }
