@@ -4,7 +4,7 @@ using Ballastlane.Domain.Repositories;
 
 namespace BallestLane.Business.Users.Queries.GetById;
 
-internal sealed class GetUserQueryHandler(IUserRepository userRepository) : IQueryHandler<GetUserByIdQuery, UserResponse>
+public sealed class GetUserQueryHandler(IUserRepository userRepository) : IQueryHandler<GetUserByIdQuery, UserResponse>
 {
     public async ValueTask<UserResponse> Handle(
         GetUserByIdQuery query,
