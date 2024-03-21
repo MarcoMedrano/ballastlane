@@ -8,25 +8,37 @@ public interface IUserCommands
     // ValueTask Update(UpdateUserCommand updateUser);
     // ValueTask Delete(DeleteUserCommand deleteUser);
 
-    ValueTask<string> Send(ICommand command, CancellationToken cancellationToken);
+    ValueTask<string> Send(ICommand<string> command, CancellationToken cancellationToken);
+    ValueTask Send(ICommand command, CancellationToken cancellationToken);
+
     //T Send<T>(ICommand<string> command, CancellationToken cancellationToken);
 }
 
-public class UserCommands(CreateUserHandler createUserHandler) : IUserCommands
+public class UserCommands(CreateUserHandler createUserHandler, UpdateUserHandler updateUserHandler, DeleteUserHandler deleteUserHandler) : IUserCommands
 {
     public ValueTask<string> Add(CreateUserCommand createUser)
     {
         throw new NotImplementedException();
     }
 
-    public async ValueTask<string> Send(ICommand command, CancellationToken cancellationToken)
+    public async ValueTask<string> Send(ICommand<string> command, CancellationToken cancellationToken)
     {
-        string res = command switch 
+        return command switch 
         {
-            CreateUserCommand userCommand =>  await createUserHandler.Handle(userCommand, cancellationToken),
-            _ => "",
+            CreateUserCommand createCommand => await createUserHandler.Handle(createCommand, cancellationToken),
+            _ => throw new NotImplementedException(),
+        };
+    }
+
+    public async ValueTask Send(ICommand command, CancellationToken cancellationToken)
+    {
+        var task = command switch
+        {
+            UpdateUserCommand updateCommand => updateUserHandler.Handle(updateCommand, cancellationToken),
+            DeleteUserCommand deleteCommand => deleteUserHandler.Handle(deleteCommand, cancellationToken),
+            _ => throw new NotImplementedException(),
         };
 
-        return res;
+        await task;
     }
 }

@@ -62,14 +62,7 @@ public class UserCqrsTests
         await userCommands.Send(newUser, CancellationToken.None);
 
         // Assert
-        mockUserRepository.Verify(r => r.Add(null), Times.Once);
-    }
-
-    private IUserCommands BuildUserCommands(IUserRepository userRepository)
-    {
-        var userCommands = new UserCommands(new CreateUserHandler(userRepository, new Mock<IDbUnitOfWork>().Object));
-
-        return userCommands;
+        mockUserRepository.Verify(r => r.Add(It.IsAny<User>()), Times.Once);
     }
 
     [Fact]
@@ -77,15 +70,14 @@ public class UserCqrsTests
     {
         // Arrange
         var mockUserRepository = new Mock<IUserRepository>();
-        var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
-
-        var existingUser = new User { Id = "existingUserId", Nickname = "ExistingUser" };
+        IUserCommands userCommands = BuildUserCommands(mockUserRepository.Object);
+        var updateCommand = new UpdateUserCommand ("existingUserId", "ExistingUser", null);
 
         // Act
-        await userService.Update(existingUser);
+        await userCommands.Send(updateCommand, CancellationToken.None);
 
         // Assert
-        mockUserRepository.Verify(r => r.Update(existingUser), Times.Once);
+        mockUserRepository.Verify(r => r.Update(It.IsAny<User>()), Times.Once);
     }
 
     [Fact]
@@ -93,12 +85,19 @@ public class UserCqrsTests
     {
         // Arrange
         var mockUserRepository = new Mock<IUserRepository>();
-        var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
+        IUserCommands userCommands = BuildUserCommands(mockUserRepository.Object);
+        var deleteCommand = new DeleteUserCommand ("deleteUserId");
 
         // Act
-        await userService.Delete("deleteUserId");
+        await userCommands.Send(deleteCommand, CancellationToken.None);
 
         // Assert
         mockUserRepository.Verify(r => r.Delete("deleteUserId"), Times.Once);
+    }
+
+    private IUserCommands BuildUserCommands(IUserRepository userRepository)
+    {
+        IDbUnitOfWork unitOfWork = new Mock<IDbUnitOfWork>().Object;
+        return new UserCommands(new(userRepository, unitOfWork), new(userRepository, unitOfWork), new(userRepository, unitOfWork));
     }
 }
