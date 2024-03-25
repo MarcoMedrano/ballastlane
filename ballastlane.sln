@@ -31,9 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Domain", "0. Domain", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Application", "1. Application", "{C4E2503D-7C2F-4074-A24D-CCFC179E2722}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Presentation", "2. Presentation", "{CD55FA03-7A55-4BE1-94A7-E38F3BCC3137}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Presentation", "3. Presentation", "{CD55FA03-7A55-4BE1-94A7-E38F3BCC3137}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infrastructure", "4. Infrastructure", "{89A20E7A-E721-4FC8-8E2C-5339E5D03F35}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Infrastructure", "2. Infrastructure", "{89A20E7A-E721-4FC8-8E2C-5339E5D03F35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ballastlane.Domain", "src\Ballastlane.Domain\Ballastlane.Domain.csproj", "{BAB040EC-4EC0-4270-BC9C-75F9B5C9E096}"
 EndProject

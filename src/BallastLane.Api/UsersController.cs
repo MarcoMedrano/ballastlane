@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using BallastLane.Api.Authorization;
 using BallastLane.Infraestructure.Api;
 using BallestLane.Dtos.Nft;
@@ -13,36 +14,36 @@ public class UsersController(IUserCommands userCommands, IUserService service, I
 {
     [AllowAnonymous]
     [HttpGet("{id}")]
-    public async Task<UserDto?> GetById(string id) => (await service.GetById(id)).Adapt<UserDto>();
+    public async Task<UserDto?> GetById(string id, CancellationToken cancellationToken) => (await service.GetById(id)).Adapt<UserDto>();
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IEnumerable<UserDto>> Get() => (await service.GetAll()).Adapt<IEnumerable<UserDto>>();
+    public async Task<IEnumerable<UserDto>> Get(CancellationToken cancellationToken) => (await service.GetAll()).Adapt<IEnumerable<UserDto>>();
 
     [HttpPost]
-    public async Task<string> Add(UserDto dto)
+    public async Task<string> Add(UserDto dto, CancellationToken cancellationToken)
     {
         logger.LogDebug("Trying to add user {0}", dto.Id);
         this.ThrowIfNotAuthorized(dto.Id);
-        return await userCommands.Add(dto.Adapt<CreateUserCommand>());
+        return await userCommands.Send(dto.Adapt<CreateUserCommand>(), cancellationToken);
     }
 
     [HttpPatch]
-    public Task Update(UserDto dto)
+    public async Task Update(UserDto dto, CancellationToken cancellationToken)
     {
         logger.LogDebug("Trying to modify user {0}" , dto.Id);
         this.ThrowIfNotAuthorized(dto.Id);
-        return service.Update(dto.Adapt<User>());
+        await userCommands.Send(dto.Adapt<UpdateUserCommand>(), cancellationToken);
     }
 
     [HttpDelete("{id}")]
-    public Task Delete(string id)
+    public async Task Delete(string id, CancellationToken cancellationToken)
     {
         logger.LogDebug("Trying to delete user {0}", id);
         this.ThrowIfNotAuthorized(id);
-        return service.Delete(id);
+        await userCommands.Send(new DeleteUserCommand(id), cancellationToken);
     }
 
     [HttpGet("{id}/nfts")]
-    public async Task<IEnumerable<NftDto>?> GetNfts(string id) => (await service.GetNfts(id)).Adapt<IEnumerable<NftDto>>();
+    public async Task<IEnumerable<NftDto>?> GetNfts(string id, CancellationToken cancellationToken) => (await service.GetNfts(id)).Adapt<IEnumerable<NftDto>>();
 }
