@@ -20,7 +20,7 @@ public class UserCqrsTests
         var userQueries = new UserQueries(getUserQueryHandler);
 
         // Act
-        var result = await userQueries.GetById(new GetUserByIdQuery("validId"), CancellationToken.None);
+        var result = await userQueries.Query(new GetUserByIdQuery("validId"), CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);

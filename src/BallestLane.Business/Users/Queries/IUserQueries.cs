@@ -1,17 +1,19 @@
-﻿using BallestLane.Business.Users.Queries.GetById;
+﻿using Application.Abstractions.Messaging;
+using BallestLane.Business.Users.Queries.GetById;
 
 namespace BallestLane.Business;
 
 public interface IUserQueries
 {
-    ValueTask<UserResponse> GetById(GetUserByIdQuery query, CancellationToken cancellationToken);
+    ValueTask<IResponse> Query<TQuery>(TQuery query, CancellationToken cancellationToken);
 }
 
 
 public class UserQueries(GetUserQueryHandler getUserQueryHandler) : IUserQueries
 {
-    public ValueTask<UserResponse> GetById(GetUserByIdQuery query, CancellationToken cancellationToken)
+    public async ValueTask<IResponse> Query<TQuery>(TQuery query, CancellationToken cancellationToken) => query switch
     {
-        return getUserQueryHandler.Handle(query, cancellationToken);
-    }
+        GetUserByIdQuery _query => (IResponse) await getUserQueryHandler.Handle(_query, cancellationToken),
+        _ => throw new NotImplementedException(),
+    };
 }
