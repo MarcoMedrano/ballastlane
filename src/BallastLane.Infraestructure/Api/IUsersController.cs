@@ -7,19 +7,19 @@ namespace BallastLane.Infraestructure.Api;
 public interface IUsersController
 {
     [Get("/api/users/{id}")]
-    Task<UserDto?> GetById(string id, CancellationToken cancellationToken);
+    Task<UserDto?> GetById(string id);
 
     [Get("/api/users")]
     Task<IEnumerable<UserDto>> Get(CancellationToken cancellationToken);
 
     [Post("/api/users")]
-    Task<string> Add(UserDto dto, CancellationToken cancellationToken);
+    Task<string> Add(UserDto dto);
 
     [Patch("/api/users")]
-    Task Update(UserDto dto, CancellationToken cancellationToken);
+    Task Update(UserDto dto);
 
     [Delete("/api/users/{id}")]
-    Task Delete(string id, CancellationToken cancellationToken);
+    Task Delete(string id);
 
     [Get("/api/users/{id}/nfts")]
     Task<IEnumerable<NftDto>?> GetNfts(string id, CancellationToken cancellationToken);

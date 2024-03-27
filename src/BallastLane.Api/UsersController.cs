@@ -16,7 +16,7 @@ public class UsersController(IUserCommands userCommands, IUserQueries queries, I
 {
     [AllowAnonymous]
     [HttpGet("{id}")]
-    public async Task<UserDto?> GetById(string id, CancellationToken cancellationToken) => (await queries.Query(new GetUserByIdQuery(id), cancellationToken)).Adapt<UserDto>();
+    public async Task<UserDto?> GetById(string id) => (await queries.Query(new GetUserByIdQuery(id), CancellationToken.None)).Adapt<UserDto>();
 
     [AllowAnonymous]
     [HttpGet]
@@ -26,26 +26,26 @@ public class UsersController(IUserCommands userCommands, IUserQueries queries, I
     public async Task<IEnumerable<NftDto>?> GetNfts(string id, CancellationToken cancellationToken) => (await service.GetNfts(id)).Adapt<IEnumerable<NftDto>>();
 
     [HttpPost]
-    public async Task<string> Add(UserDto dto, CancellationToken cancellationToken)
+    public async Task<string> Add(UserDto dto)
     {
         logger.LogDebug("Trying to add user {0}", dto.Id);
         this.ThrowIfNotAuthorized(dto.Id);
-        return await userCommands.Send(dto.Adapt<CreateUserCommand>(), cancellationToken);
+        return await userCommands.Send(dto.Adapt<CreateUserCommand>(), CancellationToken.None);
     }
 
     [HttpPatch]
-    public async Task Update(UserDto dto, CancellationToken cancellationToken)
+    public async Task Update(UserDto dto)
     {
         logger.LogDebug("Trying to modify user {0}" , dto.Id);
         this.ThrowIfNotAuthorized(dto.Id);
-        await userCommands.Send(dto.Adapt<UpdateUserCommand>(), cancellationToken);
+        await userCommands.Send(dto.Adapt<UpdateUserCommand>(), CancellationToken.None);
     }
 
     [HttpDelete("{id}")]
-    public async Task Delete(string id, CancellationToken cancellationToken)
+    public async Task Delete(string id)
     {
         logger.LogDebug("Trying to delete user {0}", id);
         this.ThrowIfNotAuthorized(id);
-        await userCommands.Send(new DeleteUserCommand(id), cancellationToken);
+        await userCommands.Send(new DeleteUserCommand(id), CancellationToken.None);
     }
 }

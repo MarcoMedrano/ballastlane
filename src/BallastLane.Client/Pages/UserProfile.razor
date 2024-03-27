@@ -73,7 +73,7 @@
         var result = await DialogService.Show<NftCreateDialog>().Result;
 
         if(result.Canceled) return;
-        Nfts = await UserApi.GetNfts(User.Id);
+        Nfts = await UserApi.GetNfts(User.Id, CancellationToken.None);
         StateHasChanged();
     }
 }
