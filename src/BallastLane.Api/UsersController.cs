@@ -12,18 +12,15 @@ namespace BallastLane.Api;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController(IUserCommands userCommands, IUserQueries queries, IUserService service, ILogger<UsersController> logger) : ControllerBase, IUsersController
+public class UsersController(IUserCommands userCommands, IUserQueries queries, ILogger<UsersController> logger) : ControllerBase, IUsersController
 {
     [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<UserDto?> GetById(string id) => (await queries.Query(new GetUserByIdQuery(id), CancellationToken.None)).Adapt<UserDto>();
 
-    [AllowAnonymous]
-    [HttpGet]
-    public async Task<IEnumerable<UserDto>> Get(CancellationToken cancellationToken) => (await service.GetAll()).Adapt<IEnumerable<UserDto>>();
 
     [HttpGet("{id}/nfts")]
-    public async Task<IEnumerable<NftDto>?> GetNfts(string id, CancellationToken cancellationToken) => (await service.GetNfts(id)).Adapt<IEnumerable<NftDto>>();
+    public async Task<IEnumerable<NftDto>?> GetNfts(string id, CancellationToken token) => (await queries.Query(new GetNftsByUserId(id), token)).Adapt<IEnumerable<NftDto>>();
 
     [HttpPost]
     public async Task<string> Add(UserDto dto)

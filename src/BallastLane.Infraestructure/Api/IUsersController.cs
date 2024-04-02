@@ -9,9 +9,6 @@ public interface IUsersController
     [Get("/api/users/{id}")]
     Task<UserDto?> GetById(string id);
 
-    [Get("/api/users")]
-    Task<IEnumerable<UserDto>> Get(CancellationToken cancellationToken);
-
     [Post("/api/users")]
     Task<string> Add(UserDto dto);
 

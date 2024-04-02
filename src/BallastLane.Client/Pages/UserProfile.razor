@@ -57,7 +57,7 @@
         if(!await AuthState.IsServerAuthenticated()) return;
         if(string.IsNullOrEmpty(User.ProfilePicture)) User.ProfilePicture = "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/approved-profile-icon.png";
 
-        Nfts = await UserApi.GetNfts(User.Id);
+        Nfts = await UserApi.GetNfts(User.Id, CancellationToken.None);
 
         base.OnParametersSetAsync();
     }

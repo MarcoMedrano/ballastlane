@@ -14,7 +14,8 @@ public static class BallestlaneServicesExtensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<INftRepository, NftRepository>();
 
-        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserCommands, UserCommands>();
+        services.AddScoped<IUserQueries, UserQueries>();
         services.AddScoped<INftService, NftService>();
 
 
