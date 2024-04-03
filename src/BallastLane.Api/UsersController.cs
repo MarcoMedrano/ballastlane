@@ -3,6 +3,7 @@ using System.Windows.Input;
 using BallastLane.Api.Authorization;
 using BallastLane.Infraestructure.Api;
 using BallestLane.Business.Users.Queries.GetById;
+using BallestLane.Business.Users.Queries.GetNftsById;
 using BallestLane.Dtos.Nft;
 using BallestLane.Dtos.User;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,11 @@ public class UsersController(IUserCommands userCommands, IUserQueries queries, I
 
 
     [HttpGet("{id}/nfts")]
-    public async Task<IEnumerable<NftDto>?> GetNfts(string id, CancellationToken token) => (await queries.Query(new GetNftsByUserId(id), token)).Adapt<IEnumerable<NftDto>>();
+    public async Task<IEnumerable<NftDto>?> GetNfts(string id, CancellationToken token)
+    {
+        var nftsResponse = await queries.Query(new GetNftsByUserIdQuery(id), token) as NftListsResponse;
+        return nftsResponse.Nfts.Adapt<IEnumerable<NftDto>>();
+    }
 
     [HttpPost]
     public async Task<string> Add(UserDto dto)

@@ -2,6 +2,7 @@
 using Ballastlane.Domain.Abstractions;
 using Ballastlane.Domain.Repositories;
 using BallestLane.Business.Users.Queries.GetById;
+using BallestLane.Business.Users.Queries.GetNftsById;
 
 
 namespace BallestLane.UnitTests;
@@ -17,7 +18,7 @@ public class UserCqrsTests
         mockUserRepository.Setup(r => r.GetById("validId")).ReturnsAsync(new User { Id = "validId", Nickname = "JohnDoe" });
 
         var getUserQueryHandler = new GetUserQueryHandler(mockUserRepository.Object);
-        var userQueries = new UserQueries(getUserQueryHandler);
+        var userQueries = new UserQueries(getUserQueryHandler, null);
 
         // Act
         var result = await userQueries.Query(new GetUserByIdQuery("validId"), CancellationToken.None) as UserResponse;
@@ -28,27 +29,25 @@ public class UserCqrsTests
         Assert.Equal("JohnDoe", result.Nickname);
     }
 
-    // [Fact]
-    // public async Task GetAll_ReturnsListOfUsers()
-    // {
-    //     // Arrange
-    //     var mockUserRepository = new Mock<IUserRepository>();
-    //     mockUserRepository.Setup(r => r.GetAll()).ReturnsAsync(new List<User>
-    //     {
-    //         new User { Id = "user1", Nickname = "Alice" },
-    //         new User { Id = "user2", Nickname = "Bob" }
-    //     });
+    [Fact]
+    public async Task GetNftsById_ValidId_ReturnsNfts()
+    {
+        // Arrange
+        var mockNftRepository = new Mock<INftRepository>();
+        mockNftRepository.Setup(r => r.GetByUserId("validId")).ReturnsAsync([new Nft { Id = 1, Name = "Cat's and roses" }]);
 
-    //     var userService = new UserService(mockUserRepository.Object, (new Mock<INftRepository>()).Object);
+        var queryHandler = new GetNftsByUserIdQueryHandler(mockNftRepository.Object);
+        var userQueries = new UserQueries(null, queryHandler);
 
-    //     // Act
-    //     var result = await userService.GetAll();
+        // Act
+        var result = await userQueries.Query(new GetNftsByUserIdQuery("validId"), CancellationToken.None) as NftListsResponse;
 
-    //     // Assert
-    //     Assert.NotNull(result);
-    //     Assert.IsType<List<User>>(result);
-    //     Assert.Equal(2, result.Count());
-    // }
+        // Assert
+        Assert.NotNull(result);
+        
+        // Assert.Equal("validId", result.Id);
+        // Assert.Equal("JohnDoe", result.Nickname);
+    }
 
     [Fact]
     public async Task Add_ValidUser_CallsRepositoryAdd()

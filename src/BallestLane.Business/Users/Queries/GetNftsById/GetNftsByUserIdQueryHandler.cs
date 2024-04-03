@@ -1,17 +1,17 @@
 ﻿using Application.Abstractions.Messaging;
 using Ballastlane.Domain.Repositories;
 
-namespace BallestLane.Business.Users.Queries.GetById;
+namespace BallestLane.Business.Users.Queries.GetNftsById;
 
-public sealed class GetNftsByUserIdQueryHandler(INftRepository nftRepo) : IQueryHandler<GetNftsByUserId, IEnumerable<NftResponse>>
+public sealed class GetNftsByUserIdQueryHandler(INftRepository nftRepo) : IQueryHandler<GetNftsByUserIdQuery, NftListsResponse>
 {
-    public async ValueTask<IEnumerable<NftResponse>> Handle(
-        GetNftsByUserId query,
+    public async ValueTask<NftListsResponse> Handle(
+        GetNftsByUserIdQuery query,
         CancellationToken cancellationToken)
     {
         var nfts = await nftRepo.GetByUserId(query.Id);
 
-        if(nfts == null) return Array.Empty<NftResponse>();
-        return nfts.Select(n => new NftResponse(n.Id, n.UserId, n.Name, n.IpfsImage));
+        if (nfts == null) return new(Array.Empty<NftResponse>());
+        return new(nfts.Select(n => new NftResponse(n.Id, n.UserId, n.Name, n.IpfsImage)));
     }
 }
