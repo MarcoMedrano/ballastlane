@@ -24,9 +24,9 @@ public class UserCqrsTests
         var result = await userQueries.Query(new GetUserByIdQuery("validId"), CancellationToken.None) as UserResponse;
 
         // Assert
-        Assert.NotNull(result);
-        Assert.Equal("validId", result.Id);
-        Assert.Equal("JohnDoe", result.Nickname);
+        result.Should().NotBeNull();
+        result.Id.Should().Be("validId");
+        result.Nickname.Should().Be("JohnDoe");
     }
 
     [Fact]
@@ -43,10 +43,9 @@ public class UserCqrsTests
         var result = await userQueries.Query(new GetNftsByUserIdQuery("validId"), CancellationToken.None) as NftListsResponse;
 
         // Assert
-        Assert.NotNull(result);
-        
-        // Assert.Equal("validId", result.Id);
-        // Assert.Equal("JohnDoe", result.Nickname);
+        result.Should().NotBeNull();
+        result.Nfts.Should().NotBeEmpty();
+        result.Nfts.Should().Contain(e => e.Id == 1);
     }
 
     [Fact]
