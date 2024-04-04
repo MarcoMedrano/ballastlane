@@ -5,7 +5,7 @@ In the block chain world a User is represented by its wallet which is an address
 These users can hold NFTs (Non Fungible Tokens) which usually are represented by media used for art, gaming, digital assets and others.
 
 ___
-### Use Case: User signin
+### Use Case: User signing
 As a blockchain user I want to login into the system by using MetaMask so that I can edit my information.
 
 #### Acceptance Criteria.

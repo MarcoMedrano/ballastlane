@@ -1,9 +1,9 @@
 ﻿using BallastLane.Api.Authorization;
-using BallastLane.Client;
 using Ballastlane.Domain.Repositories;
 using BallestLane.Business;
 using BallestLane.Dal;
 using Nethereum.Siwe;
+using Ballastlane.Domain.Abstractions;
 
 namespace BallastLane.Extensions;
 
@@ -11,8 +11,13 @@ public static class BallestlaneServicesExtensions
 {
     public static IServiceCollection AddBallestlaneServices(this IServiceCollection services)
     {
+        services.AddScoped<IDbUnitOfWork, DbUnitOfWork>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<INftRepository, NftRepository>();
+
+        services.AddScoped<CreateUserHandler, CreateUserHandler>();
+        services.AddScoped<UpdateUserHandler, UpdateUserHandler>();
+        services.AddScoped<DeleteUserHandler, DeleteUserHandler>();
 
         services.AddScoped<IUserCommands, UserCommands>();
         services.AddScoped<IUserQueries, UserQueries>();
